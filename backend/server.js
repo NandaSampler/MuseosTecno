@@ -54,7 +54,7 @@ app.use("/api/visitas", visitaRoutes);
 app.use("/api/museo-categorias", museoCategoriaRoutes);
 app.use("/api/auditorias", auditoriaRoutes);
 
-// Manejo global de errores
+// Middleware de manejo global de errores
 app.use((err, req, res, next) => {
   console.error("Error:", err.message || err);
   res.status(err.status || 500).json({ error: err.message || "Error interno del servidor" });
@@ -65,5 +65,5 @@ const PORT = process.env.PORT || 4000;
 
 // Iniciar el servidor
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });

@@ -7,24 +7,21 @@ const {
   updateAdmin,
 } = require('../controllers/adminController');
 
-const authenticateToken = require('../middlewares/authMiddleware');
-const checkRole = require('../middlewares/roleMiddleware');
-
 const router = express.Router();
 
-// Obtener todos los administradores (solo para administradores autenticados)
-router.get('/', authenticateToken, checkRole('admin'), getAdmins);
+// Obtener todos los administradores
+router.get('/', getAdmins);
 
-// Obtener un administrador por ID (autenticación requerida)
-router.get('/:id', authenticateToken, getAdmin);
+// Obtener un administrador por ID
+router.get('/:id', getAdmin);
 
-// Crear un nuevo administrador (solo para admins)
-router.post('/', authenticateToken, checkRole('admin'), createAdmin);
+// Crear un nuevo administrador
+router.post('/', createAdmin);
 
-// Eliminar un administrador por ID (solo para admins)
-router.delete('/:id', authenticateToken, checkRole('admin'), deleteAdmin);
+// Eliminar un administrador por ID
+router.delete('/:id', deleteAdmin);
 
-// Actualizar un administrador por ID (solo para admins)
-router.patch('/:id', authenticateToken, checkRole('admin'), updateAdmin);
+// Actualizar un administrador por ID
+router.patch('/:id', updateAdmin);
 
 module.exports = router;
