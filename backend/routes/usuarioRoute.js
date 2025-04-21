@@ -5,9 +5,12 @@ const {
   createUser,
   deleteUser,
   updateUser,
+  loginUser,
 } = require('../controllers/usuarioController');
 
 const router = express.Router();
+
+router.post('/login', loginUser);
 
 // Crear un nuevo usuario
 router.post('/', createUser);
