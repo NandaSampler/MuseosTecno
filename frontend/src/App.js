@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route} from 'react-router-dom';
-import Login from './components/login';
-import Register from './components/registrar';
+import Login from './ventanas/login';
+import Register from './ventanas/registrar';
 
 function App() {
   return (
