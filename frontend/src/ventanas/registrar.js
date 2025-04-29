@@ -66,13 +66,14 @@ export default function RegisterForm() {
       }
       localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
-      Swal.fire({
+      await Swal.fire({
         icon: "success",
         title: "Registro exitoso",
-        text: `¡Bienvenido, ${data.usuario.nombre}!`,
+        text: `¡Bienvenido!`,
         showConfirmButton: false,
         timer: 1500,
       });
+      navigate("/");
     } catch (err) {
       Swal.fire({
         icon: "error",

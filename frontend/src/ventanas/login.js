@@ -46,7 +46,7 @@ export default function Login() {
         showConfirmButton: false,
         timer: 1500,
       });
-      navigate("/");
+      navigate("/inicio");
     } catch (err) {
       Swal.fire({ icon: "error", title: "Error", text: err.message });
     } finally {
