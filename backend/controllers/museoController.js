@@ -6,9 +6,9 @@ const Dpto = require('../models/dptoModel'); // Para verificar si existe el depa
  */
 const createMuseo = async (req, res) => {
   try {
-    const { nombre, ubicacion, historia, descripcion, foto, departamento_id } = req.body;
+    const { nombre, ubicacion, historia, descripcion, foto, departamento_id, galeria} = req.body;
 
-    if (!nombre || !ubicacion || !historia || !descripcion || !foto || !departamento_id) {
+    if (!nombre || !ubicacion || !historia || !descripcion || !foto || !departamento_id || !galeria) {
       return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
     }
 
@@ -24,6 +24,7 @@ const createMuseo = async (req, res) => {
       historia,
       descripcion,
       foto,
+      galeria: Array.isArray(galeria) ? galeria : [], // Minimo 2 elementos
       departamento_id,
     });
 
@@ -74,7 +75,7 @@ const getMuseoById = async (req, res) => {
 const updateMuseo = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, ubicacion, historia, descripcion, foto, departamento_id } = req.body;
+    const { nombre, ubicacion, historia, descripcion, foto, departamento_id, galeria} = req.body;
 
     const museo = await Museo.findById(id);
     if (!museo) {
@@ -95,6 +96,8 @@ const updateMuseo = async (req, res) => {
     if (historia) museo.historia = historia;
     if (descripcion) museo.descripcion = descripcion;
     if (foto) museo.foto = foto;
+    if (galeria && Array.isArray(galeria)) museo.galeria = galeria;
+
 
     await museo.save();
     return res.status(200).json({ message: 'Museo actualizado.', museo });

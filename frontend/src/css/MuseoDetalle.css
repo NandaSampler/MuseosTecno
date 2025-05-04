@@ -12,9 +12,17 @@
   
   .museo-carrusel {
     display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px 0;
   }
+  
+  .museo-img {
+    max-width: 300px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  
   
   .museo-carrusel img {
     max-width: 100%;

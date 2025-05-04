@@ -1,4 +1,3 @@
-// Modelo para la colección "Museo"
 const mongoose = require('mongoose');
 
 const museoSchema = new mongoose.Schema({
@@ -25,9 +24,13 @@ const museoSchema = new mongoose.Schema({
     required: true,
     maxlength: 255,
   },
+  galeria: [{
+    type: String,
+    maxlength: 255, // Cada URL o ruta de imagen puede tener hasta 255 caracteres
+  }],
   departamento_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Dpto', // Relación con el modelo Dpto
+    ref: 'Dpto',
     required: true,
   },
 }, {

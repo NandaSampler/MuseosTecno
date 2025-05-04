@@ -1,42 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaBars, FaUserCircle, FaTimes } from 'react-icons/fa';
+import '../css/Navbar.css';
 
 const Navbar = () => {
-    return (
-        <nav style={styles.nav}>
-          <h1 style={styles.logo}>Ruta Cultural</h1>
-          <ul style={styles.navLinks}>
-            <li><a href="#inicio" style={styles.link}>Inicio</a></li>
-            <li><a href="#historia" style={styles.link}>Historia</a></li>
-            <li><a href="#lugares" style={styles.link}>Lugares</a></li>
-            <li><a href="#contacto" style={styles.link}>Contacto</a></li>
-          </ul>
-        </nav>
-      );
-    };
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-const styles = {
-  nav: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#333',
-    padding: '10px 20px',
-  },
-  logo: {
-    color: '#fff',
-    margin: 0,
-  },
-  navLinks: {
-    listStyle: 'none',
-    display: 'flex',
-    gap: '15px',
-    margin: 0,
-    padding: 0,
-  },
-  link: {
-    color: '#fff',
-    textDecoration: 'none',
-  }
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const closeSidebar = () => setIsSidebarOpen(false);
+
+  return (
+    <>
+      <nav className="navbar">
+        <div className="navbar-left">
+          <FaBars className="menu-icon" onClick={toggleSidebar} />
+          <Link to="/inicio" className="logo">Ruta Cultural</Link>
+        </div>
+        <div className="navbar-profile">
+          <FaUserCircle size={36} color="#fff" />
+        </div>
+      </nav>
+
+      {isSidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
+
+      <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+        <div className="sidebar-header">
+          <FaTimes className="close-icon" onClick={closeSidebar} />
+        </div>
+        <ul className="sidebar-links">
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#historia">Historia</a></li>
+          <li><a href="#lugares">Lugares</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </>
+  );
 };
 
 export default Navbar;

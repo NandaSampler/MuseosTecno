@@ -65,41 +65,58 @@ const MuseoDetalle = () => {
       <h1 className="museo-titulo">{museo.nombre}</h1>
 
       <div className="museo-carrusel">
-        <img src={museo.foto} alt={museo.nombre} />
+        {museo.galeria && museo.galeria.length > 0 ? (
+          museo.galeria.map((img, index) => (
+            <img key={index} src={img} alt={`Imagen ${index + 1} de ${museo.nombre}`} className="museo-img" />
+          ))
+        ) : (
+          <p>Sin imágenes disponibles en la galería.</p>
+        )}
       </div>
 
       <div className="museo-info">
-        <h2>Historia</h2>
-        <p>{museo.historia}</p>
+  <h2>Ubicación</h2>
+  <p>
+  <a
+    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(museo.ubicacion)}`}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    {museo.ubicacion}
+  </a>
+</p>
 
-        <h2>Descripción</h2>
-        <p>{museo.descripcion}</p>
+  <h2>Historia</h2>
+  <p>{museo.historia}</p>
 
-        <h2>Categorías</h2>
-        <ul>
-          {categorias.map((cat, index) => (
-            <li key={index}>{cat}</li>
-          ))}
-        </ul>
+  <h2>Descripción</h2>
+  <p>{museo.descripcion}</p>
 
-        <h2>Horarios</h2>
-        <ul>
-          {horarios.map((horario, index) => (
-            <li key={index}>
-              {new Date(horario.dia_semana).toLocaleDateString()} - {horario.hora_apertura} a {horario.hora_cierre}
-            </li>
-          ))}
-        </ul>
+  <h2>Categorías</h2>
+  <ul>
+    {categorias.map((cat, index) => (
+      <li key={index}>{cat}</li>
+    ))}
+  </ul>
 
-        <h2>Comentarios</h2>
-        <ul>
-          {comentarios.map((comentario, index) => (
-            <li key={index}>
-              <strong>{comentario.usuario_id.nombre}:</strong> {comentario.comentario} ({comentario.valoracion})
-            </li>
-          ))}
-        </ul>
-      </div>
+  <h2>Horarios</h2>
+  <ul>
+    {horarios.map((horario, index) => (
+      <li key={index}>
+        {new Date(horario.dia_semana).toLocaleDateString()} - {horario.hora_apertura} a {horario.hora_cierre}
+      </li>
+    ))}
+  </ul>
+
+  <h2>Comentarios</h2>
+  <ul>
+    {comentarios.map((comentario, index) => (
+      <li key={index}>
+        <strong>{comentario.usuario_id.nombre}:</strong> {comentario.comentario} ({comentario.valoracion})
+      </li>
+    ))}
+  </ul>
+</div>
     </div>
   );
 };
