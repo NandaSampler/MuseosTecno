@@ -5,8 +5,8 @@
     import Login from "./view/Login";
     import Register from "./view/Registrar";
     import Home from "./view/Home";
-    import Lapaz from "./view/Lapaz";
     import Principal from "./view/Principal";
+    import MuseoDetalle from "./view/MuseoDetalle";
 
 
     // Componentes
@@ -30,8 +30,8 @@
                 <Route path="/" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/inicio" element={<Home />} />
-                <Route path="/lapaz" element={<Lapaz />} />
                 <Route path="/departamento/:departamentoId" element={<Principal />} />
+                <Route path="/museo/:id" element={<MuseoDetalle />} /> 
             </Routes>
             </div>
         </>

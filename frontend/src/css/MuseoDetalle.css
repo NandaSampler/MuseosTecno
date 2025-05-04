@@ -1,0 +1,38 @@
+.museo-detalle-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .museo-titulo {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  .museo-carrusel {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .museo-carrusel img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .museo-info h2 {
+    margin-top: 20px;
+    color: #333;
+  }
+  
+  .museo-info p,
+  .museo-info ul {
+    margin-left: 20px;
+  }
+  
+  .museo-info ul {
+    list-style-type: disc;
+  }
+  

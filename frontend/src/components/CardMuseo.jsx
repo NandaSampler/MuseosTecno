@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/CardMuseo.css";
 
 
+
 const CardMuseo = ({ museo }) => {
   const navigate = useNavigate();
 

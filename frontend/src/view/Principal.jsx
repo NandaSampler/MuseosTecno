@@ -6,7 +6,7 @@ import "../css/Principal.css";
 
 
 const Principal = () => {
-  const { departamentoId } = useParams(); // viene de la ruta tipo /departamento/:departamentoId
+  const { departamentoId } = useParams(); 
   const [museos, setMuseos] = useState([]);
   const [loading, setLoading] = useState(true);
 
