@@ -1,117 +1,86 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "../css/Home.css";
 
 const Home = () => {
-  const [hovered, setHovered] = React.useState(null);
+  const [hovered, setHovered] = useState(null);
+  const [departamentos, setDepartamentos] = useState([]);
   const navigate = useNavigate();
 
-  const tarjetas = [
-    { titulo: "La Paz", colores: ["#e74c3c", "#387b32"], fondo: "lapaz.jpg" },
-    { titulo: "Cochabamba", colores: ["#5dade2"], fondo: "cochabamba.jpg" },
-    { titulo: "Santa Cruz", colores: ["#27ae60", "#fdfefe", "#27ae60"], fondo: "santacruz.jpg" },
-    { titulo: "Chuquisaca", colores: ["#fdfefe", "#f90707"], fondo: "chuquisaca.jpg" },
-    { titulo: "Oruro", colores: ["#f90707"], fondo: "oruro.jpeg" },
-    { titulo: "Potosí", colores: ["#f90707", "#fdfefe"], fondo: "potosi.jpg" },
-    { titulo: "Tarija", colores: ["#fdfefe", "#f90707"], fondo: "tarija.jpg" },
-    { titulo: "Beni", colores: ["#7dcea0"], fondo: "beni.jpg" },
-    { titulo: "Pando", colores: ["#fdfefe", "#2ecc71"], fondo: "pando.jpg" },
-  ];
+
+  useEffect(() => {
+    const fetchDepartamentos = async () => {
+      try {
+        const res = await axios.get("http://localhost:4000/api/departamentos");
+        setDepartamentos(res.data);
+      } catch (error) {
+        console.error("Error al obtener departamentos:", error);
+      }
+    };
+
+    fetchDepartamentos();
+  }, []);
+
+  const imagenes = {
+    "La Paz": "lapaz.jpg",
+    "Cochabamba": "cochabamba.jpg",
+    "Santa Cruz": "santacruz.jpg",
+    "Chuquisaca": "chuquisaca.jpg",
+    "Oruro": "oruro.jpeg",
+    "Potosí": "potosi.jpg",
+    "Tarija": "tarija.jpg",
+    "Beni": "beni.jpg",
+    "Pando": "pando.jpg",
+  };
+
+  const colores = {
+    "La Paz": ["#e74c3c", "#387b32"],
+    "Cochabamba": ["#5dade2"],
+    "Santa Cruz": ["#27ae60", "#fdfefe", "#27ae60"],
+    "Chuquisaca": ["#fdfefe", "#f90707"],
+    "Oruro": ["#f90707"],
+    "Potosí": ["#f90707", "#fdfefe"],
+    "Tarija": ["#fdfefe", "#f90707"],
+    "Beni": ["#7dcea0"],
+    "Pando": ["#fdfefe", "#2ecc71"],
+  };
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        fontFamily: "'Segoe UI', sans-serif",
-        backgroundColor: "#FFFFFF",
-        padding: "2rem",
-      }}
-    >
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "1.5rem",
-          width: "1500px",
-        }}
-      >
-        {tarjetas.map((t, index) => {
-          const split = Math.ceil(t.titulo.length / t.colores.length);
+    <div className="home-container">
+      <div className="grid-container">
+        {departamentos.map((dpto, index) => {
+          const nombre = dpto.nombre;
+          const fondo = imagenes[nombre] || "default.jpg";
+          const coloresTexto = colores[nombre] || ["white"];
+          const split = Math.ceil(nombre.length / coloresTexto.length);
+
           return (
             <div
-              key={index}
-              style={{
-                position: "relative",
-                overflow: "hidden",
-                borderRadius: "12px",
-                cursor: "pointer",
-                height: "250px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+              key={dpto._id}
+              className="card"
               onMouseEnter={() => setHovered(index)}
               onMouseLeave={() => setHovered(null)}
-              onClick={() => {
-                if (t.titulo === "La Paz") {
-                  navigate("/lapaz");
-                }
-              }}
+              onClick={() => navigate(`/departamento/${dpto._id}`)}
             >
               <div
+                className="card-background"
                 style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  backgroundImage: `url(/img/departamentos/${t.fondo})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  transition: "filter 0.3s",
+                  backgroundImage: `url(/img/departamentos/${fondo})`,
                   filter:
                     hovered === index ? "blur(2px) brightness(0.5)" : "none",
-                  zIndex: 1,
                 }}
               />
-
-              {hovered === index && (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    backgroundColor: "rgba(0, 0, 0, 0.3)",
-                    transition: "opacity 0.3s",
-                    zIndex: 2,
-                  }}
-                />
-              )}
-
-              <h2
-                style={{
-                  display: "flex",
-                  gap: "0.2rem",
-                  fontSize: "2rem",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  margin: 0,
-                  zIndex: 3,
-                  color: "white",
-                }}
-              >
-                {[...t.titulo].map((char, i) => (
+              {hovered === index && <div className="card-overlay" />}
+              <h2 className="card-title">
+                {[...nombre].map((char, i) => (
                   <span
                     key={i}
                     style={{
                       transition: "color 0.3s",
                       color:
                         hovered === index
-                          ? t.colores[Math.floor(i / split) % t.colores.length]
+                          ? coloresTexto[Math.floor(i / split) % coloresTexto.length]
                           : "white",
                     }}
                   >

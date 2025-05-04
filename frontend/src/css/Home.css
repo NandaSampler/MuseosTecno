@@ -1,0 +1,77 @@
+.home-container {
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #ffffff;
+  padding: 2rem;
+}
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  padding-inline: 0rem; /* Bordes izq y der */
+  box-sizing: border-box;
+  max-width: 100%; 
+}
+
+/* Cuando pueden entrar al menos dos cards */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tres cards por fila */
+@media (min-width: 1025px) {
+  .grid-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  cursor: pointer;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: filter 0.3s;
+  z-index: 1;
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: opacity 0.3s;
+  z-index: 2;
+}
+
+.card-title {
+  display: flex;
+  gap: 0.2rem;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  z-index: 3;
+  color: white;
+}

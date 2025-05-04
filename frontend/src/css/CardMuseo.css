@@ -1,0 +1,41 @@
+/* src/components/CardMuseo.css */
+
+.card-museo {
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-museo:hover {
+    transform: scale(1.03);
+  }
+  
+  .card-museo-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  
+  .card-museo-content {
+    padding: 15px;
+    background-color: #f9f9f9;
+  }
+  
+  .card-museo-content h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .card-museo-content p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #666;
+  }
+  

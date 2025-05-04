@@ -1,0 +1,18 @@
+.principal-container {
+    padding: 2rem;
+  }
+  
+  .principal-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .principal-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+  
