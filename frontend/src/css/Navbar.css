@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #2c1f1f;
+    background-color: #0173af;
     padding: 15px 25px;
     height: 70px;
     position: relative;
@@ -22,9 +22,7 @@
   }
   
   .logo {
-    background: linear-gradient(90deg, red, yellow, green);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: white;
     font-size: 26px;
     font-weight: bold;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

@@ -1,22 +1,60 @@
-.museo-detalle-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
   .museo-titulo {
     text-align: center;
-    font-size: 2em;
+    font-size: 2.5em;
+    font-family: 'Playfair Display', serif;
+    color: #2c2c2c;
     margin-bottom: 20px;
   }
-  
+
+  .carrusel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 800px;         /* Limita el ancho */
+    margin: 0 auto;           /* Centra el carrusel */
+  }
+
   .museo-carrusel {
     display: flex;
-    gap: 10px;
     overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 16px;
     padding: 10px 0;
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+    max-width: 100%;
+    margin: 0 40px;          
   }
-  
+
+  .museo-carrusel::-webkit-scrollbar {
+    display: none; 
+  }
+
+  .carrusel-btn {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 2;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    transition: background 0.3s ease;
+  }
+
+  .carrusel-btn.izquierda {
+    left: 0;
+  }
+
+  .carrusel-btn.derecha {
+    right: 0;
+  }
+
+
   .museo-img {
     flex: 0 0 auto;
     width: 300px;
@@ -27,40 +65,182 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     transition: transform 0.3s ease;
   }
-  
-  
-  .museo-carrusel {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 16px;
-    padding: 10px 0;
-    scroll-behavior: smooth;
-  }
 
-  .museo-carrusel::-webkit-scrollbar {
-    height: 8px;
-  }
-  
-  .museo-carrusel::-webkit-scrollbar-thumb {
-    background: #999;
-    border-radius: 4px;
-  }
-  
-  .museo-info h2 {
-    margin-top: 20px;
-    color: #333;
-  }
-  
-  .museo-info p,
-  .museo-info ul {
-    margin-left: 20px;
-  }
-  
-  .museo-info ul {
-    list-style-type: disc;
-  }
-  
   .museo-img:hover {
     transform: scale(1.05);
   }
+
+  .carrusel-btn {
+    position: absolute;
+    background-color: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 2;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    transition: background 0.3s ease;
+  }
+
+  .carrusel-btn:hover {
+    background-color: rgba(0,0,0,0.8);
+  }
+
+  .carrusel-btn.izquierda {
+    left: -20px;
+  }
+
+  .carrusel-btn.derecha {
+    right: -20px;
+  }
+
+  .estrellas {
+    color: gold;
+    font-size: 1.1em;
+  }
+
+  /* Sección horizontal con 3 cajas */
+  .info-resumen {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 30px auto;
+    max-width: 800px;
+    padding: 0 20px;
+    flex-wrap: wrap;
+  }
+
+  .info-box {
+    flex: 1;
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    min-width: 220px;
+  }
+
+  .info-box h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .estrellas-box {
+    font-size: 1.4em;
+    color: gold;
+  }
+
+  /* Mejora los h2 generales */
+  .museo-info h2 {
+    font-family: 'Poppins', sans-serif;
+    margin-top: 25px;
+    color: #444;
+    font-size: 20px;
+  }
+
+  .categoria-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chip {
+    background-color: #d1eaff;
+    color: #004080;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .info-bloques {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+  
+  .info-bloque {
+    background-color: #fefefe;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  .info-bloque h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    background-color: #2361d3e1;
+    color: white;
+    margin: -20px -20px 15px -20px; 
+    padding: 12px 20px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+  
+  .info-bloque p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  .lista-horarios {
+    list-style: none;
+    padding-left: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  /* Comentarios */
+  .comentarios-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+  }
+  
+  .comentario-card {
+    background-color: #f4f4f4;
+    padding: 12px 16px;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+  
+  .comentario-autor {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #222;
+  }
+  
+  .comentario-texto {
+    margin: 0;
+    color: #444;
+    font-size: 15px;
+  }
+  .museo-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -10;
+    background: url('/fondo-animado.svg') no-repeat center center;
+    background-size: cover;
+  }
+  .museo-detalle-container {
+    position: relative;
+    z-index: 1;
+    padding-bottom: 3rem;
+    background-color: rgba(255, 255, 255, 0.8); /* Para dejar ver el fondo */
+    backdrop-filter: blur(4px);
+  }
+  
+  
+  
+
+
