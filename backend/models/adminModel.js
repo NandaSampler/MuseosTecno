@@ -33,6 +33,11 @@ const adminSchema = new mongoose.Schema({
     maxlength: [50, 'El rol no puede tener más de 50 caracteres'],
     trim: true,
   },
+  museo_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Museo',
+      required: true,
+    },
 }, {
   collection: 'admin',
   timestamps: false,
