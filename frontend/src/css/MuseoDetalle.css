@@ -18,16 +18,33 @@
   }
   
   .museo-img {
-    max-width: 300px;
-    border-radius: 8px;
+    flex: 0 0 auto;
+    width: 300px;
+    height: 200px;
     object-fit: cover;
+    border-radius: 10px;
+    scroll-snap-align: start;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
   }
   
   
-  .museo-carrusel img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
+  .museo-carrusel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 16px;
+    padding: 10px 0;
+    scroll-behavior: smooth;
+  }
+
+  .museo-carrusel::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .museo-carrusel::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 4px;
   }
   
   .museo-info h2 {
@@ -44,3 +61,6 @@
     list-style-type: disc;
   }
   
+  .museo-img:hover {
+    transform: scale(1.05);
+  }

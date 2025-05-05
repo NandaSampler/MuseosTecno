@@ -2,17 +2,22 @@ const Museo = require('../models/museoModel');
 const Dpto = require('../models/dptoModel'); // Para verificar si existe el departamento relacionado
 
 /**
- * Crear un nuevo museo
+ * Crear un nuevo museo (ahora usando multer para archivos)
  */
 const createMuseo = async (req, res) => {
   try {
-    const { nombre, ubicacion, historia, descripcion, foto, departamento_id, galeria} = req.body;
+    const { nombre, ubicacion, historia, descripcion, departamento_id } = req.body;
 
-    if (!nombre || !ubicacion || !historia || !descripcion || !foto || !departamento_id || !galeria) {
+    // Verifica que se hayan subido archivos correctamente
+    const foto = req.files?.['foto']?.[0]?.filename || null;
+    const galeria = req.files?.['galeria']?.map((file) => file.filename) || [];
+
+    // Validación de campos
+    if (!nombre || !ubicacion || !historia || !descripcion || !foto || !departamento_id) {
       return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
     }
 
-    // Verifica que exista el departamento relacionado
+    // Verificar que el departamento exista
     const dpto = await Dpto.findById(departamento_id);
     if (!dpto) {
       return res.status(404).json({ error: 'Departamento no encontrado.' });
@@ -24,7 +29,7 @@ const createMuseo = async (req, res) => {
       historia,
       descripcion,
       foto,
-      galeria: Array.isArray(galeria) ? galeria : [], // Minimo 2 elementos
+      galeria,
       departamento_id,
     });
 
@@ -75,14 +80,13 @@ const getMuseoById = async (req, res) => {
 const updateMuseo = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, ubicacion, historia, descripcion, foto, departamento_id, galeria} = req.body;
+    const { nombre, ubicacion, historia, descripcion, foto, departamento_id, galeria } = req.body;
 
     const museo = await Museo.findById(id);
     if (!museo) {
       return res.status(404).json({ message: 'Museo no encontrado.' });
     }
 
-    // Validar si se proporciona un nuevo departamento
     if (departamento_id) {
       const dpto = await Dpto.findById(departamento_id);
       if (!dpto) {
@@ -97,7 +101,6 @@ const updateMuseo = async (req, res) => {
     if (descripcion) museo.descripcion = descripcion;
     if (foto) museo.foto = foto;
     if (galeria && Array.isArray(galeria)) museo.galeria = galeria;
-
 
     await museo.save();
     return res.status(200).json({ message: 'Museo actualizado.', museo });

@@ -1,0 +1,46 @@
+.registro-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: #f4f4f4;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  
+  .registro-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-museo label {
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+  
+  .form-museo input,
+  .form-museo textarea,
+  .form-museo select {
+    width: 100%;
+    padding: 0.6rem;
+    margin-top: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .form-museo button {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0.75rem;
+    background: #4CAF50;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .form-museo button:hover {
+    background: #388e3c;
+  }
+  

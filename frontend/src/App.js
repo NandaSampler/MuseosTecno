@@ -7,6 +7,7 @@
     import Home from "./view/Home";
     import Principal from "./view/Principal";
     import MuseoDetalle from "./view/MuseoDetalle";
+    import RegistrarMuseoAdminView from "./view/admin/RegistrarMuseoAdminView";
 
 
     // Componentes
@@ -28,7 +29,8 @@
                 <Route path="/register" element={<Register />} />
                 <Route path="/inicio" element={<Home />} />
                 <Route path="/departamento/:departamentoId" element={<Principal />} />
-                <Route path="/museo/:id" element={<MuseoDetalle />} /> 
+                <Route path="/museo/:id" element={<MuseoDetalle />} />
+                <Route path="/crear-solicitud" element={<RegistrarMuseoAdminView />} />
             </Routes>
             </div>
         </>

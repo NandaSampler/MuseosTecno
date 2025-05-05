@@ -1,3 +1,4 @@
+const upload = require('../middlewares/upload');
 const express = require('express');
 const {
   createMuseo,
@@ -10,7 +11,14 @@ const {
 const router = express.Router();
 
 // Crear un nuevo museo
-router.post('/', createMuseo);
+router.post(
+  '/',
+  upload.fields([
+    { name: 'foto', maxCount: 1 },
+    { name: 'galeria', maxCount: 10 },
+  ]),
+  createMuseo
+);
 
 // Obtener todos los museos
 router.get('/', getMuseos);

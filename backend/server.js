@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
+const path = require("path"); // ✅ necesario para servir estáticos
 require("./db"); // Conexión a la base de datos MongoDB
 
 // Importar todas las rutas
@@ -17,8 +18,10 @@ const visitaRoutes = require("./routes/visitaRoute");
 const museoCategoriaRoutes = require("./routes/museoCategoriaRoute");
 const auditoriaRoutes = require("./routes/auditoriaRoute");
 
-// Inicializar Express
 const app = express();
+
+// ✅ Servir archivos estáticos desde /uploads
+app.use('/uploads', express.static('uploads'));
 
 // Configuración de CORS
 const corsOptions = {

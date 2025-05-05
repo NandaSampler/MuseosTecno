@@ -65,13 +65,22 @@ const MuseoDetalle = () => {
       <h1 className="museo-titulo">{museo.nombre}</h1>
 
       <div className="museo-carrusel">
-        {museo.galeria && museo.galeria.length > 0 ? (
-          museo.galeria.map((img, index) => (
-            <img key={index} src={img} alt={`Imagen ${index + 1} de ${museo.nombre}`} className="museo-img" />
-          ))
-        ) : (
-          <p>Sin imágenes disponibles en la galería.</p>
-        )}
+      {museo.galeria && museo.galeria.length > 0 ? (
+        museo.galeria.map((img, index) => {
+          const isFullUrl = img.startsWith("http");
+          const imageUrl = isFullUrl ? img : `http://localhost:4000/uploads/${img}`;
+          return (
+            <img
+              key={index}
+              src={imageUrl}
+              alt={`Imagen ${index + 1} de ${museo.nombre}`}
+              className="museo-img"
+            />
+          );
+        })
+      ) : (
+        <p>Sin imágenes disponibles en la galería.</p>
+      )}
       </div>
 
       <div className="museo-info">
