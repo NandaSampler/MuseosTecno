@@ -8,6 +8,12 @@ const usuarioSchema = new mongoose.Schema({
     maxlength: [50, 'El nombre no puede tener más de 50 caracteres'],
     trim: true,
   },
+  apellido: {
+    type: String,
+    required: [true, 'El apellido es obligatorio'],
+    maxlength: [50, 'El apellido no puede tener más de 50 caracteres'],
+    trim: true,
+  },
   email: {
     type: String,
     required: [true, 'El correo electrónico es obligatorio'],

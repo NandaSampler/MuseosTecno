@@ -28,7 +28,7 @@ const getAdmin = async (req, res) => {
 
 // Crear un nuevo administrador con contraseña encriptada
 const createAdmin = async (req, res) => {
-  const { nombre, email, password } = req.body;
+  const { nombre, email, password, rol } = req.body;
 
   try {
     const existingAdmin = await Admin.findOne({ email });
@@ -43,6 +43,7 @@ const createAdmin = async (req, res) => {
       nombre,
       email,
       password: hashedPassword,
+      rol
     });
 
     await newAdmin.save();

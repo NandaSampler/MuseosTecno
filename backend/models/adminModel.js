@@ -21,6 +21,12 @@ const adminSchema = new mongoose.Schema({
     required: [true, 'La contraseña es obligatoria'],
     minlength: [6, 'La contraseña debe tener al menos 6 caracteres'],
   },
+  rol: {
+    type: String,
+    required: [true, 'El rol es obligatorio'],
+    maxlength: [50, 'El rol no puede tener más de 50 caracteres'],
+    trim: true,
+  },
 }, {
   collection: 'admin',
   timestamps: false,

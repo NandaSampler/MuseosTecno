@@ -16,10 +16,7 @@
     const MainApp = () => {
         const location = useLocation();
 
-        // Rutas sin Navbar
         const hideNavbarRoutes = ["/", "/register"];
-
-        // Rutas con Navbar
         const showNavbar = !hideNavbarRoutes.includes(location.pathname);
 
         return (

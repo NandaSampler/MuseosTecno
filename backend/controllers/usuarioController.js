@@ -28,7 +28,7 @@ const getUser = async (req, res) => {
 
 // Crear un nuevo usuario
 const createUser = async (req, res) => {
-  const { nombre, email, password, favoritos } = req.body;
+  const { nombre, apellido, email, password, favoritos } = req.body;
 
   try {
     const existingUser = await Usuario.findOne({ email });
@@ -41,6 +41,7 @@ const createUser = async (req, res) => {
 
     const newUser = new Usuario({
       nombre,
+      apellido,
       email,
       password: hashedPassword,
       favoritos: favoritos || [],
