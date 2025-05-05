@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const Admin = require('../models/adminModel.js');
+const SECRET = 'tu_clave_secreta';
 
 // Obtener todos los administradores
 const getAdmins = async (req, res) => {
