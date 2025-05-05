@@ -25,27 +25,32 @@ export default function Login() {
     e.preventDefault();
     if (!validate()) return;
     setLoading(true);
+    const isAdmin = email.toLowerCase().endsWith("@ucb.edu.bo");
+    const endpoint = isAdmin
+      ? `${API_URL}/api/admins/login`
+      : `${API_URL}/api/usuarios/login`;
+  
     try {
-      const res = await fetch(`${API_URL}/api/usuarios/login`, {
+      const res = await fetch(endpoint, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
+  
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Autenticación fallida");
-
+  
       localStorage.setItem("token", data.token);
-      if (data.refreshToken)
-        localStorage.setItem("refreshToken", data.refreshToken);
-      localStorage.setItem("usuario", JSON.stringify(data.usuario));
-
+      localStorage.setItem("usuario", JSON.stringify(data.usuario || data.admin));
+  
       Swal.fire({
         icon: "success",
-        title: `¡Bienvenido, ${data.usuario.nombre || "visitante"}!`,
+        title: `¡Bienvenido, ${data.usuario?.nombre || data.admin?.nombre || "visitante"}!`,
         showConfirmButton: false,
         timer: 1500,
       });
+  
       navigate("/inicio");
     } catch (err) {
       Swal.fire({ icon: "error", title: "Error", text: err.message });
@@ -53,6 +58,7 @@ export default function Login() {
       setLoading(false);
     }
   };
+  
 
   return (
     <div style={styles.page}>

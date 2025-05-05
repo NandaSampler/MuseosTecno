@@ -7,7 +7,7 @@ const {
   updateUser,
   loginUser,
 } = require('../controllers/usuarioController');
-
+const { verificarToken, esUsuario} = require('../middlewares/auth');
 const router = express.Router();
 
 router.post('/login', loginUser);
@@ -16,7 +16,7 @@ router.post('/login', loginUser);
 router.post('/', createUser);
 
 // Obtener todos los usuarios
-router.get('/', getUsers);
+router.get('/', verificarToken, getUsers);
 
 // Obtener un usuario por ID
 router.get('/:id', getUser);

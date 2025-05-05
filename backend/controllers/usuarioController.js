@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const Usuario = require('../models/usuarioModel.js');
+const SECRET = 'tu_clave_secreta';
 
 // Obtener todos los usuarios
 const getUsers = async (req, res) => {
@@ -114,10 +116,25 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ error: 'Correo o contraseña incorrectos' });
     }
 
+    const payload = {
+      id: user._id,
+      email: user.email,
+      tipo: 'usuario'   
+    };
+    const token = jwt.sign(payload, SECRET, { expiresIn: '2h' });
+    console.log('🛡️  JWT generado:', token);
+
     res.status(200).json({
       success: true,
       message: 'Inicio de sesión exitoso',
-      usuario: user,
+      token,
+      usuario: {
+        id: user._id,
+        nombre: user.nombre,
+        apellido: user.apellido,
+        email: user.email,
+        favoritos: user.favoritos
+      }
     });
   } catch (error) {
     res.status(500).json({ error: 'Error al iniciar sesión', details: error.message });

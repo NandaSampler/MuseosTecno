@@ -6,6 +6,7 @@ import API_URL from "../Api/api";
 export default function RegisterForm() {
   const navigate = useNavigate();
   const [nombre, setNombre]             = useState("");
+  const [apellido, setApellido]             = useState("");
   const [email, setEmail]               = useState("");
   const [password, setPassword]         = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -19,7 +20,9 @@ export default function RegisterForm() {
     if (!nombre.trim()) {
       errs.nombre = "El nombre es requerido";
     }
-
+    if (!apellido.trim()){
+      errs.apellido = "El apellido es requerido"
+    }
     if (!email) {
       errs.email = "El email es requerido";
     } else if (!emailRegex.test(email)) {
@@ -55,7 +58,7 @@ export default function RegisterForm() {
       const res = await fetch(`${API_URL}/api/usuarios/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, email, password }),
+        body: JSON.stringify({ nombre, apellido,email, password }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Error al registrarte");
@@ -109,10 +112,22 @@ export default function RegisterForm() {
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
               onBlur={validate}
-              placeholder="Nombre Completo"
+              placeholder="Nombre"
               style={styles.input}
             />
             {errors.nombre && <div style={styles.error}>{errors.nombre}</div>}
+          </div>
+
+          <div style={styles.field}>
+            <input
+              type="text"
+              value={apellido}
+              onChange={(e) => setApellido(e.target.value)}
+              onBlur={validate}
+              placeholder="Apellido"
+              style={styles.input}
+            />
+            {errors.apellido && <div style={styles.error}>{errors.apellido}</div>}
           </div>
 
           <div style={styles.field}>
