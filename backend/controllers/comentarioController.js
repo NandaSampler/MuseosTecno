@@ -7,11 +7,16 @@ const Museo = require('../models/museoModel');
  */
 const createComentario = async (req, res) => {
   try {
-    const { comentario, fecha_comentario, valoracion, usuario_id, museo_id } = req.body;
+    const { comentario, valoracion, usuario_id, museo_id } = req.body;
 
-    // Validación básica
-    if (!comentario || !fecha_comentario || !valoracion || !usuario_id || !museo_id) {
+    // Validación básica (sin fecha_comentario)
+    if (!comentario || !valoracion || !usuario_id || !museo_id) {
       return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
+    }
+
+    // Validar rango de valoración
+    if (valoracion < 1 || valoracion > 5) {
+      return res.status(400).json({ error: 'La valoración debe estar entre 1 y 5 estrellas.' });
     }
 
     // Verificar existencia de usuario y museo
@@ -28,7 +33,6 @@ const createComentario = async (req, res) => {
 
     const nuevoComentario = new Comentario({
       comentario,
-      fecha_comentario,
       valoracion,
       usuario_id,
       museo_id,
@@ -40,6 +44,7 @@ const createComentario = async (req, res) => {
     return res.status(500).json({ error: 'Error al crear el comentario.', details: error.message });
   }
 };
+
 
 /**
  * Obtener todos los comentarios
@@ -132,10 +137,32 @@ const deleteComentario = async (req, res) => {
   }
 };
 
+/**
+ * Obtener todos los comentarios de un museo específico
+ */
+const getComentariosPorMuseo = async (req, res) => {
+  try {
+    const { museoId } = req.params;
+
+    const comentarios = await Comentario.find({ museo_id: museoId })
+      .populate('usuario_id', 'nombre email')
+      .populate('museo_id', 'nombre');
+
+    return res.status(200).json(comentarios);
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Error al obtener comentarios del museo.',
+      details: error.message,
+    });
+  }
+};
+
+
 module.exports = {
   createComentario,
   getComentarios,
   getComentarioById,
   updateComentario,
   deleteComentario,
+  getComentariosPorMuseo,
 };
