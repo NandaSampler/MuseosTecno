@@ -5,6 +5,8 @@ const {
   getVisitaById,
   updateVisita,
   deleteVisita,
+  getVisitasPorUsuario,
+  getVisitasPorMuseo,
 } = require('../controllers/visitaController');
 
 const router = express.Router();
@@ -14,6 +16,12 @@ router.post('/', createVisita);
 
 // Obtener todas las visitas
 router.get('/', getVisitas);
+
+// Obtener visitas por usuario
+router.get('/usuario/:usuarioId', getVisitasPorUsuario);
+
+// Obtener visitas por museo
+router.get('/museo/:museoId', getVisitasPorMuseo);
 
 // Obtener una visita por ID
 router.get('/:id', getVisitaById);

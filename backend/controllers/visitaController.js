@@ -7,29 +7,35 @@ const Usuario = require('../models/usuarioModel');
  */
 const createVisita = async (req, res) => {
   try {
-    const { fecha_visita, numero_visitantes, comentarios, museo_id, usuario_id } = req.body;
+    const {
+      fecha_hora_visita,
+      numero_visitantes,
+      nota,
+      guia,
+      idioma_guia,
+      museo_id,
+      usuario_id
+    } = req.body;
 
-    if (!fecha_visita || !numero_visitantes || !comentarios || !museo_id || !usuario_id) {
-      return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
+    // Validaciones básicas
+    if (!fecha_hora_visita || !numero_visitantes || !museo_id || !usuario_id) {
+      return res.status(400).json({ error: 'Campos obligatorios faltantes.' });
     }
 
-    // Verificar existencia de museo y usuario
     const museo = await Museo.findById(museo_id);
     const usuario = await Usuario.findById(usuario_id);
 
-    if (!museo) {
-      return res.status(404).json({ error: 'Museo no encontrado.' });
-    }
-    if (!usuario) {
-      return res.status(404).json({ error: 'Usuario no encontrado.' });
-    }
+    if (!museo) return res.status(404).json({ error: 'Museo no encontrado.' });
+    if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado.' });
 
     const nuevaVisita = new Visita({
-      fecha_visita,
+      fecha_hora_visita,
       numero_visitantes,
-      comentarios,
+      nota,
+      guia,
+      idioma_guia,
       museo_id,
-      usuario_id,
+      usuario_id
     });
 
     await nuevaVisita.save();
@@ -85,35 +91,41 @@ const getVisitaById = async (req, res) => {
 const updateVisita = async (req, res) => {
   try {
     const { id } = req.params;
-    const { fecha_visita, numero_visitantes, comentarios, museo_id, usuario_id } = req.body;
+    const {
+      fecha_hora_visita,
+      numero_visitantes,
+      nota,
+      guia,
+      idioma_guia,
+      museo_id,
+      usuario_id
+    } = req.body;
 
     const visita = await Visita.findById(id);
     if (!visita) {
       return res.status(404).json({ message: 'Visita no encontrada.' });
     }
 
+    // Validar museo y usuario si se modifican
     if (museo_id) {
       const museo = await Museo.findById(museo_id);
-      if (!museo) {
-        return res.status(404).json({ error: 'Museo no encontrado.' });
-      }
+      if (!museo) return res.status(404).json({ error: 'Museo no encontrado.' });
       visita.museo_id = museo_id;
     }
 
     if (usuario_id) {
       const usuario = await Usuario.findById(usuario_id);
-      if (!usuario) {
-        return res.status(404).json({ error: 'Usuario no encontrado.' });
-      }
+      if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado.' });
       visita.usuario_id = usuario_id;
     }
 
-    if (fecha_visita) visita.fecha_visita = fecha_visita;
+    if (fecha_hora_visita) visita.fecha_hora_visita = fecha_hora_visita;
     if (numero_visitantes) visita.numero_visitantes = numero_visitantes;
-    if (comentarios) visita.comentarios = comentarios;
+    if (nota !== undefined) visita.nota = nota;
+    if (guia !== undefined) visita.guia = guia;
+    if (idioma_guia) visita.idioma_guia = idioma_guia;
 
     await visita.save();
-
     return res.status(200).json({ message: 'Visita actualizada.', visita });
   } catch (error) {
     return res.status(500).json({ error: 'Error al actualizar la visita.', details: error.message });
@@ -138,10 +150,47 @@ const deleteVisita = async (req, res) => {
   }
 };
 
+/**
+ * Obtener visitas por usuario
+ */
+const getVisitasPorUsuario = async (req, res) => {
+  try {
+    const { usuarioId } = req.params;
+
+    const visitas = await Visita.find({ usuario_id: usuarioId })
+      .populate('museo_id')
+      .populate('usuario_id');
+
+    return res.status(200).json(visitas);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error al obtener las visitas por usuario.', details: error.message });
+  }
+};
+
+/**
+ * Obtener visitas por museo
+ */
+const getVisitasPorMuseo = async (req, res) => {
+  try {
+    const { museoId } = req.params;
+
+    const visitas = await Visita.find({ museo_id: museoId })
+      .populate('museo_id')
+      .populate('usuario_id');
+
+    return res.status(200).json(visitas);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error al obtener las visitas por museo.', details: error.message });
+  }
+};
+
+
 module.exports = {
   createVisita,
   getVisitas,
   getVisitaById,
   updateVisita,
   deleteVisita,
+  getVisitasPorUsuario,
+  getVisitasPorMuseo,
 };

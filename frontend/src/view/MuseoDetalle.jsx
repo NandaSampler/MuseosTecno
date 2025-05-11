@@ -83,8 +83,53 @@ const MuseoDetalle = () => {
   };
 
   const promedioValoracionDecimal = comentarios.length > 0
-  ? comentarios.reduce((sum, c) => sum + Number(c.valoracion || 0), 0) / comentarios.length
-  : 0;
+    ? comentarios.reduce((sum, c) => sum + Number(c.valoracion || 0), 0) / comentarios.length
+    : 0;
+
+  const diasSemana = [
+    "Lunes", "Martes", "Miércoles", "Jueves",
+    "Viernes", "Sábado", "Domingo", "Feriado"
+  ];
+
+  // Agrupa los días por su horario de apertura y cierre
+  const horariosAgrupados = {};
+
+  diasSemana.forEach(dia => {
+    const horario = horarios.find(h => h.dia === dia);
+    const key = horario && !horario.cerrado
+  ? `${horario.apertura.slice(0, 5)} a ${horario.cierre.slice(0, 5)}`
+  : 'Cerrado';
+
+
+    if (!horariosAgrupados[key]) {
+      horariosAgrupados[key] = [];
+    }
+    horariosAgrupados[key].push(dia);
+  });
+
+  // Función para formatear días agrupados (ej. "Lunes a Viernes" o "Sábado")
+  const formatearDias = (dias) => {
+    const indices = dias.map(d => diasSemana.indexOf(d)).sort((a, b) => a - b);
+    const rangos = [];
+
+    for (let i = 0; i < indices.length; i++) {
+      const inicio = indices[i];
+      let fin = inicio;
+
+      while (i + 1 < indices.length && indices[i + 1] === fin + 1) {
+        fin = indices[++i];
+      }
+
+      if (inicio === fin) {
+        rangos.push(diasSemana[inicio]);
+      } else {
+        rangos.push(`${diasSemana[inicio]} a ${diasSemana[fin]}`);
+      }
+    }
+
+    return rangos;
+  };
+
 
 
   if (!museo) return <div>Cargando...</div>;
@@ -135,6 +180,9 @@ const MuseoDetalle = () => {
             </div>
           </div>
 
+
+
+
           <div className="info-box">
             <h3>Ubicación</h3>
             <a
@@ -146,6 +194,10 @@ const MuseoDetalle = () => {
             </a>
           </div>
         </div>
+
+                  <div className="info-box agendar-visita-box">
+  <button className="boton-agendar">Agendar visita</button>
+</div>
 
         <div className="info-bloques">
           <div className="info-bloque">
@@ -163,18 +215,15 @@ const MuseoDetalle = () => {
           <div className="info-bloque">
             <h3>Horarios</h3>
             <ul className="lista-horarios">
-              {[
-                "Lunes", "Martes", "Miércoles", "Jueves",
-                "Viernes", "Sábado", "Domingo", "Feriado"
-              ].map((diaOrdenado) => {
-                const horario = horarios.find(h => h.dia === diaOrdenado);
-                return (
-                  <li key={diaOrdenado}>
-                    {diaOrdenado} - {horario && !horario.cerrado ? `${horario.apertura} a ${horario.cierre}` : "Cerrado"}
+              {Object.entries(horariosAgrupados).map(([horario, diasAgrupados], index) => (
+                formatearDias(diasAgrupados).map((rango, subIndex) => (
+                  <li key={`${index}-${subIndex}`}>
+                    {rango} - {horario}
                   </li>
-                );
-              })}
+                ))
+              ))}
             </ul>
+
           </div>
 
           <div className="info-bloque">
