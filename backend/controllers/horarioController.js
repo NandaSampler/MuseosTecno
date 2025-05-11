@@ -17,6 +17,11 @@ const createHorario = async (req, res) => {
       return res.status(404).json({ error: 'Museo no encontrado.' });
     }
 
+    const yaExiste = await Horario.findOne({ dia_semana, museo_id });
+    if (yaExiste) {
+      return res.status(409).json({ error: `El horario para ${dia_semana} ya está registrado.` });
+    }
+
     const nuevoHorario = new Horario({
       dia_semana,
       hora_apertura,
@@ -42,6 +47,41 @@ const getHorarios = async (req, res) => {
     return res.status(500).json({ error: 'Error al obtener los horarios.', details: error.message });
   }
 };
+
+/**
+ * Obtener incluso los días en los que está cerrado.
+ */
+const getHorariosCompletosPorMuseo = async (req, res) => {
+  try {
+    console.log("📥 Entrando a getHorariosCompletosPorMuseo");
+console.log("🔎 museoId recibido:", req.params.museoId);
+
+    const { museoId } = req.params;
+    const diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo', 'Feriado'];
+
+    const horarios = await Horario.find({ museo_id: museoId });
+
+    const completos = diasSemana.map(dia => {
+      const h = horarios.find(hor => hor.dia_semana === dia);
+      console.log("🔎 ID recibido:", museoId);
+console.log("🧾 Horarios encontrados en la base de datos:", horarios);
+console.log("✅ Entrando a getHorariosCompletosPorMuseo");
+
+
+      return {
+        dia,
+        apertura: h?.hora_apertura || null,
+        cierre: h?.hora_cierre || null,
+        cerrado: !h
+      };
+    });
+
+    return res.status(200).json(completos);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error al obtener los horarios completos.', details: error.message });
+  }
+};
+
 
 /**
  * Obtener un horario por ID
@@ -121,4 +161,5 @@ module.exports = {
   getHorarioById,
   updateHorario,
   deleteHorario,
+  getHorariosCompletosPorMuseo,
 };

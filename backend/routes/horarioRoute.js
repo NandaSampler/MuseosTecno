@@ -5,6 +5,7 @@ const {
   getHorarioById,
   updateHorario,
   deleteHorario,
+  getHorariosCompletosPorMuseo,
 } = require('../controllers/horarioController');
 
 const router = express.Router();
@@ -14,6 +15,9 @@ router.post('/', createHorario);
 
 // Obtener todos los horarios
 router.get('/', getHorarios);
+
+// Obtener horarios completos incluyendo días en los que cierra, por museo
+router.get('/completos/:museoId', getHorariosCompletosPorMuseo);
 
 // Obtener un horario por ID
 router.get('/:id', getHorarioById);
