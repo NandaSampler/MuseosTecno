@@ -1,28 +1,37 @@
 const Museo = require('../models/museoModel');
-const Dpto = require('../models/dptoModel'); // Para verificar si existe el departamento relacionado
+const Dpto = require('../models/dptoModel');
+const Horario = require('../models/horarioModel');
+const MuseoCategoria = require('../models/museoCategoriaModel');
 
 /**
- * Crear un nuevo museo (ahora usando multer para archivos)
+ * Crear un nuevo museo (ahora usando multer y datos relacionados)
  */
 const createMuseo = async (req, res) => {
   try {
-    const { nombre, ubicacion, historia, descripcion, departamento_id } = req.body;
+    const {
+      nombre,
+      ubicacion,
+      historia,
+      descripcion,
+      departamento_id
+    } = req.body;
 
-    // Verifica que se hayan subido archivos correctamente
+    // Archivos
     const foto = req.files?.['foto']?.[0]?.filename || null;
     const galeria = req.files?.['galeria']?.map((file) => file.filename) || [];
 
-    // Validación de campos
+    // Validación principal
     if (!nombre || !ubicacion || !historia || !descripcion || !foto || !departamento_id) {
-      return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
+      return res.status(400).json({ error: 'Faltan campos obligatorios.' });
     }
 
-    // Verificar que el departamento exista
+    // Verifica que el departamento exista
     const dpto = await Dpto.findById(departamento_id);
     if (!dpto) {
       return res.status(404).json({ error: 'Departamento no encontrado.' });
     }
 
+    // Crea el museo principal
     const nuevoMuseo = new Museo({
       nombre,
       ubicacion,
@@ -30,12 +39,42 @@ const createMuseo = async (req, res) => {
       descripcion,
       foto,
       galeria,
-      departamento_id,
+      departamento_id
     });
 
     await nuevoMuseo.save();
-    return res.status(201).json({ message: 'Museo creado exitosamente.', museo: nuevoMuseo });
+
+    // --- Manejo de CATEGORÍAS ---
+    if (req.body.categorias) {
+      const categoriasArray = JSON.parse(req.body.categorias);
+      for (const categoria_id of categoriasArray) {
+        await new MuseoCategoria({
+          museo_id: nuevoMuseo._id,
+          categoria_id
+        }).save();
+      }
+    }
+
+    // --- Manejo de HORARIOS ---
+    if (req.body.horarios) {
+      const horariosArray = JSON.parse(req.body.horarios);
+      for (const h of horariosArray) {
+        await new Horario({
+          dia_semana: h.dia,
+          hora_apertura: h.cerrado ? null : h.apertura,
+          hora_cierre: h.cerrado ? null : h.cierre,
+          museo_id: nuevoMuseo._id
+        }).save();
+      }
+    }
+
+    return res.status(201).json({
+      message: 'Museo, categorías y horarios registrados correctamente.',
+      museo: nuevoMuseo
+    });
+
   } catch (error) {
+    console.error('Error en createMuseo:', error);
     return res.status(500).json({ error: 'Error al crear el museo.', details: error.message });
   }
 };
@@ -132,5 +171,5 @@ module.exports = {
   getMuseos,
   getMuseoById,
   updateMuseo,
-  deleteMuseo,
+  deleteMuseo
 };

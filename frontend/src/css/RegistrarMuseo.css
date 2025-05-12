@@ -44,3 +44,48 @@
     background: #388e3c;
   }
   
+  .horarios-box {
+  margin-top: 1.5rem;
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.horario-dia {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-bottom: 1px dashed #ccc;
+}
+
+.horario-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.cerrado-label {
+  font-weight: normal;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.horas-flex {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.horas-flex label {
+  flex: 1;
+}
+
+.cerrado-label {
+  margin-left: 1rem;
+  font-weight: normal;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
