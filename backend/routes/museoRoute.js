@@ -6,6 +6,8 @@ const {
   getMuseoById,
   updateMuseo,
   deleteMuseo,
+  getMuseosPendientes,
+  cambiarEstadoMuseo
 } = require('../controllers/museoController');
 
 const router = express.Router();
@@ -22,6 +24,12 @@ router.post(
 
 // Obtener todos los museos
 router.get('/', getMuseos);
+
+// Obtener museos pendientes (para superadmin)
+router.get('/pendientes', getMuseosPendientes);
+
+// Cambiar estado del museo
+router.patch('/:id/estado', cambiarEstadoMuseo);
 
 // Obtener un museo por ID
 router.get('/:id', getMuseoById);

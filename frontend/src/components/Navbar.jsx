@@ -16,7 +16,7 @@ const Navbar = () => {
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        if (decoded.tipo === 'admin') {
+        if (decoded.tipo === 'admin' || decoded.tipo === 'superadmin') {
           setIsAdmin(true);
         }
       } catch (err) {
@@ -54,6 +54,7 @@ const Navbar = () => {
             <>
               <li><Link to="/crear-solicitud">Crear Solicitud</Link></li>
               <li><Link to="/mis-museos">Mis Museos</Link></li>
+              <li><Link to="/ver-propuestas">Ver Propuestas</Link></li> {/* NUEVO */}
             </>
           )}
         </ul>

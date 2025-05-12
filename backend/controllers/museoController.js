@@ -4,7 +4,7 @@ const Horario = require('../models/horarioModel');
 const MuseoCategoria = require('../models/museoCategoriaModel');
 
 /**
- * Crear un nuevo museo (ahora usando multer y datos relacionados)
+ * Crear un nuevo museo (usando multer y datos relacionados)
  */
 const createMuseo = async (req, res) => {
   try {
@@ -16,22 +16,18 @@ const createMuseo = async (req, res) => {
       departamento_id
     } = req.body;
 
-    // Archivos
     const foto = req.files?.['foto']?.[0]?.filename || null;
     const galeria = req.files?.['galeria']?.map((file) => file.filename) || [];
 
-    // Validación principal
     if (!nombre || !ubicacion || !historia || !descripcion || !foto || !departamento_id) {
       return res.status(400).json({ error: 'Faltan campos obligatorios.' });
     }
 
-    // Verifica que el departamento exista
     const dpto = await Dpto.findById(departamento_id);
     if (!dpto) {
       return res.status(404).json({ error: 'Departamento no encontrado.' });
     }
 
-    // Crea el museo principal
     const nuevoMuseo = new Museo({
       nombre,
       ubicacion,
@@ -39,12 +35,13 @@ const createMuseo = async (req, res) => {
       descripcion,
       foto,
       galeria,
-      departamento_id
+      departamento_id,
+      estado: 'pendiente'
     });
 
     await nuevoMuseo.save();
 
-    // --- Manejo de CATEGORÍAS ---
+    // CATEGORÍAS
     if (req.body.categorias) {
       const categoriasArray = JSON.parse(req.body.categorias);
       for (const categoria_id of categoriasArray) {
@@ -55,7 +52,7 @@ const createMuseo = async (req, res) => {
       }
     }
 
-    // --- Manejo de HORARIOS ---
+    // HORARIOS
     if (req.body.horarios) {
       const horariosArray = JSON.parse(req.body.horarios);
       for (const h of horariosArray) {
@@ -84,10 +81,43 @@ const createMuseo = async (req, res) => {
  */
 const getMuseos = async (req, res) => {
   try {
-    const museos = await Museo.find().populate('departamento_id');
+    const museos = await Museo.find({ estado: 'aceptado' }).populate('departamento_id');
     return res.status(200).json(museos);
   } catch (error) {
     return res.status(500).json({ error: 'Error al obtener los museos.', details: error.message });
+  }
+};
+
+/**
+ * Obtener museos en estado pendiente (para superadmin)
+ */
+const getMuseosPendientes = async (req, res) => {
+  try {
+    const museos = await Museo.find({ estado: 'pendiente' }).populate('departamento_id');
+    return res.status(200).json(museos);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error al obtener museos pendientes.', details: error.message });
+  }
+};
+
+/**
+ * Cambiar estado de un museo: aceptado o rechazado
+ */
+const cambiarEstadoMuseo = async (req, res) => {
+  const { id } = req.params;
+  const { nuevoEstado } = req.body;
+
+  if (!['aceptado', 'rechazado'].includes(nuevoEstado)) {
+    return res.status(400).json({ error: 'Estado no válido.' });
+  }
+
+  try {
+    const museo = await Museo.findByIdAndUpdate(id, { estado: nuevoEstado }, { new: true });
+    if (!museo) return res.status(404).json({ error: 'Museo no encontrado.' });
+
+    return res.status(200).json({ message: `Museo ${nuevoEstado} exitosamente.`, museo });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error al cambiar el estado del museo.', details: error.message });
   }
 };
 
@@ -171,5 +201,7 @@ module.exports = {
   getMuseos,
   getMuseoById,
   updateMuseo,
-  deleteMuseo
+  deleteMuseo,
+  getMuseosPendientes,
+  cambiarEstadoMuseo
 };

@@ -26,13 +26,18 @@ const museoSchema = new mongoose.Schema({
   },
   galeria: [{
     type: String,
-    maxlength: 255, // Cada URL o ruta de imagen puede tener hasta 255 caracteres
+    maxlength: 255,
   }],
   departamento_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Dpto',
     required: true,
   },
+  estado: {
+    type: String,
+    enum: ['pendiente', 'aceptado', 'rechazado'],
+    default: 'pendiente'
+  }
 }, {
   collection: 'museo',
   timestamps: false,
