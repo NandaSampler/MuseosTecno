@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "../css/MuseoDetalle.css";
@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as emptyStar } from "@fortawesome/free-regular-svg-icons";
 import VisitModal from "../components/ModalAgregarVisitas";
+import ComentarioModal from "../components/ModalComentarios";
 
 const MuseoDetalle = () => {
   const { id } = useParams();
@@ -19,6 +20,7 @@ const MuseoDetalle = () => {
   const [comentarios, setComentarios] = useState([]);
   const [user, setUser] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [mostrarModal, setMostrarModal] = useState(false);
   const carruselRef = useRef(null);
 
   useEffect(() => {
@@ -67,24 +69,23 @@ const MuseoDetalle = () => {
         console.error("Error al obtener los horarios:", error);
       }
     };
-
-    const fetchComentarios = async () => {
-      try {
-        const res = await axios.get(`http://localhost:4000/api/comentarios`);
-        const comentariosFiltrados = res.data.filter(
-          (c) => c.museo_id._id === id
-        );
-        setComentarios(comentariosFiltrados);
-      } catch (error) {
-        console.error("Error al obtener los comentarios:", error);
-      }
-    };
-
     fetchMuseo();
     fetchCategorias();
     fetchHorarios();
     fetchComentarios();
   }, [id]);
+
+  const fetchComentarios = async () => {
+    try {
+      const res = await axios.get(`http://localhost:4000/api/comentarios`);
+      const comentariosFiltrados = res.data.filter(
+        (c) => c.museo_id._id === id
+      );
+      setComentarios(comentariosFiltrados);
+    } catch (error) {
+      console.error("Error al obtener los comentarios:", error);
+    }
+  };
 
   const scrollCarrusel = (direction) => {
     const { current } = carruselRef;
@@ -166,31 +167,52 @@ const MuseoDetalle = () => {
     return rangos;
   };
 
-  
-const handleVisitaSubmit = async (visitaData) => {
-  try {
-    await axios.post(
-      'http://localhost:4000/api/visitas',
-      visitaData,
-      { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
-    );
-    setModalOpen(false);
-    await Swal.fire({
-      icon: 'success',
-      title: '¡Visita registrada!',
-      text: 'Tu visita se agendó correctamente.',
-      confirmButtonText: 'Aceptar'
-    });
-  } catch (error) {
-    console.error('Error registrando visita:', error);
-    await Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'No se pudo registrar la visita. Intenta de nuevo.',
-      confirmButtonText: 'Aceptar'
-    });
-  }
-};
+  const handleVisitaSubmit = async (visitaData) => {
+    try {
+      await axios.post("http://localhost:4000/api/visitas", visitaData, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      setModalOpen(false);
+      await Swal.fire({
+        icon: "success",
+        title: "¡Visita registrada!",
+        text: "Tu visita se agendó correctamente.",
+        confirmButtonText: "Aceptar",
+      });
+    } catch (error) {
+      console.error("Error registrando visita:", error);
+      await Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo registrar la visita. Intenta de nuevo.",
+        confirmButtonText: "Aceptar",
+      });
+    }
+  };
+
+  const handleEnviarComentario = async (datos) => {
+    try {
+      await axios.post("http://localhost:4000/api/comentarios", datos, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      await fetchComentarios();
+      setModalOpen(false);
+      await Swal.fire({
+        icon: "success",
+        title: "¡Comentario registrado!",
+        text: "Tu comentario se registro correctamente.",
+        confirmButtonText: "Aceptar",
+      });
+    } catch (error) {
+      console.error("Error registrando visita:", error);
+      await Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo registrar la visita. Intenta de nuevo.",
+        confirmButtonText: "Aceptar",
+      });
+    }
+  };
 
   if (!museo) return <div>Cargando...</div>;
 
@@ -330,6 +352,12 @@ const handleVisitaSubmit = async (visitaData) => {
                 </div>
               ))}
             </div>
+            <div
+              className="comentario-card comentario-placeholder"
+              onClick={() => setMostrarModal(true)}
+            >
+              <div className="comentario-input-fake">Agregar comentario...</div>
+            </div>
           </div>
         </div>
         {user && (
@@ -342,6 +370,12 @@ const handleVisitaSubmit = async (visitaData) => {
             horarios={horarios}
           />
         )}
+        <ComentarioModal
+          isOpen={mostrarModal}
+          onClose={() => setMostrarModal(false)}
+          onSubmit={handleEnviarComentario}
+          museo={museo}
+        />
       </div>
     </>
   );

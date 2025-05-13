@@ -93,6 +93,8 @@ export default function VisitModal({
       museo_id: museoId,
       usuario_id: usuarioId,
     });
+
+    onClose(); 
   };
 
   if (!isOpen) return null;
