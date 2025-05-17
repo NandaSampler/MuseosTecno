@@ -7,12 +7,9 @@ import Register from "./view/Registrar";
 import Home from "./view/Home";
 import Principal from "./view/Principal";
 import MuseoDetalle from "./view/MuseoDetalle";
-
-// Vistas de admin
 import RegistrarMuseoAdminView from "./view/admin/RegistrarMuseoAdminView";
-
-// Vistas de superadmin
 import VerPropuestasSuperAdminView from "./view/superadmin/VerPropuestasSuperAdminView";
+import Usuario from "./view/Usuario";
 
 // Componentes
 import Navbar from "./components/Navbar";
@@ -36,6 +33,7 @@ function App() {
             <Route path="/museo/:id" element={<MuseoDetalle />} />
             <Route path="/crear-solicitud" element={<RegistrarMuseoAdminView />} />
             <Route path="/ver-propuestas" element={<VerPropuestasSuperAdminView />} />
+            <Route path="/user" element={<Usuario/>}/>
           </Routes>
         </div>
       </>

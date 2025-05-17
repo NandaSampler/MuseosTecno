@@ -83,6 +83,17 @@ export default function VisitModal({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (
+      !fecha ||
+      !hora ||
+      !numVisitantes ||
+      numVisitantes < 1 ||
+      !museoId ||
+      !usuarioId
+    ) {
+      alert("Por favor, complete todos los campos correctamente.");
+      return;
+    }
     const fecha_hora_visita = new Date(`${fecha}T${hora}`);
     onSubmit({
       fecha_hora_visita,
@@ -94,7 +105,7 @@ export default function VisitModal({
       usuario_id: usuarioId,
     });
 
-    onClose(); 
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -144,10 +155,13 @@ export default function VisitModal({
           <div className="form-group">
             <label>Número de visitantes</label>
             <input
-              type="number"
-              min="1"
+              type="text"
+              inputMode="numeric"
               value={numVisitantes}
-              onChange={(e) => setNumVisitantes(+e.target.value)}
+              onChange={(e) => {
+                const value = parseInt(e.target.value, 10);
+                setNumVisitantes(isNaN(value) ? "" : value);
+              }}
               required
             />
           </div>

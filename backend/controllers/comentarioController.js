@@ -157,6 +157,23 @@ const getComentariosPorMuseo = async (req, res) => {
   }
 };
 
+const getComentariosPorUsuario = async (req, res) => {
+  try {
+    const { usuarioId } = req.params;
+
+    const comentarios = await Comentario.find({ usuario_id: usuarioId })
+      .populate('usuario_id', 'nombre email')
+      .populate('museo_id', 'nombre');
+
+    return res.status(200).json(comentarios);
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Error al obtener comentarios del usuario.',
+      details: error.message,
+    });
+  }
+};
+
 
 module.exports = {
   createComentario,
@@ -165,4 +182,5 @@ module.exports = {
   updateComentario,
   deleteComentario,
   getComentariosPorMuseo,
+  getComentariosPorUsuario,
 };

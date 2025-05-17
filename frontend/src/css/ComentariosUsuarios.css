@@ -1,0 +1,67 @@
+.comentarios-usuario-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.comentarios-usuario-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.cargando,
+.sin-comentarios {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+.comentario-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: transform 0.2s;
+}
+
+.comentario-card:hover {
+  transform: translateY(-2px);
+}
+
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.museo-nombre {
+  font-weight: bold;
+}
+
+.fecha {
+  font-style: italic;
+}
+
+.valoracion {
+  margin-bottom: 12px;
+}
+
+.estrella {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-right: 2px;
+}
+
+.estrella.activa {
+  color: #f5b50a;
+}
+
+.texto {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #444;
+}
