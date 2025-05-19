@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/CardMuseo.css";
 import { jwtDecode } from "jwt-decode";
 
-const CardMuseo = ({ museo, favoritosUsuario = [] }) => {
+const CardMuseo = ({ museo, favoritosUsuario = [], actualizarFavoritos }) => {
   const navigate = useNavigate();
-  const [favorito, setFavorito] = useState(false);
+
+  // Obtener el token y userId
   const token = localStorage.getItem("token");
   let userId = "";
 
@@ -18,18 +19,21 @@ const CardMuseo = ({ museo, favoritosUsuario = [] }) => {
     }
   }
 
-  // ✅ Verifica si este museo está en favoritosUsuario
-  useEffect(() => {
-    const idsFavoritos = favoritosUsuario.map(fav =>
-      typeof fav === "string" ? fav : fav._id?.toString()
-    );
-    setFavorito(idsFavoritos.includes(museo._id?.toString()));
-  }, [favoritosUsuario, museo._id]);
+  // Verificar si el museo está en favoritos
+  const idsFavoritos = favoritosUsuario.map(fav =>
+    typeof fav === "string" ? fav : fav._id?.toString()
+  );
 
+  const [favorito, setFavorito] = useState(
+    idsFavoritos.includes(museo._id?.toString())
+  );
+
+  // Navegar al detalle del museo
   const handleClick = () => {
     navigate(`/museo/${museo._id}`);
   };
 
+  // Agregar o quitar favorito
   const toggleFavorito = async (e) => {
     e.stopPropagation();
     const nuevoEstado = !favorito;
@@ -48,11 +52,13 @@ const CardMuseo = ({ museo, favoritosUsuario = [] }) => {
       const data = await res.json();
       if (!res.ok) {
         console.error("❌ Error al actualizar favoritos:", data.error || data.message);
-        setFavorito(!nuevoEstado); // revertir si falla
+        setFavorito(!nuevoEstado);
+      } else {
+        if (actualizarFavoritos) actualizarFavoritos(); // 🔄 Actualiza el estado global
       }
     } catch (error) {
-      console.error("❌ Error de red:", error);
-      setFavorito(!nuevoEstado); // revertir si hay error
+      console.error("❌ Error de red al actualizar favoritos:", error);
+      setFavorito(!nuevoEstado);
     }
   };
 
