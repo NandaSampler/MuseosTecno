@@ -118,8 +118,7 @@ const loginUser = async (req, res) => {
 
     const payload = {
       id: user._id,
-      email: user.email,
-      tipo: 'usuario'   
+      email: user.email,  
     };
     const token = jwt.sign(payload, SECRET, { expiresIn: '2h' });
     console.log('🛡️  JWT generado:', token);

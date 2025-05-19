@@ -6,6 +6,7 @@ const {
   updateComentario,
   deleteComentario,
   getComentariosPorMuseo,
+  getComentariosPorUsuario,
 } = require('../controllers/comentarioController');
 
 const router = express.Router();
@@ -27,5 +28,7 @@ router.put('/:id', updateComentario);
 
 // Eliminar un comentario
 router.delete('/:id', deleteComentario);
+
+router.get('/usuario/:usuarioId', getComentariosPorUsuario);
 
 module.exports = router;

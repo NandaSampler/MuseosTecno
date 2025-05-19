@@ -11,9 +11,8 @@ import ConstruirRutaView from "./view/ConstruirRutaView"; // 👈 NUEVA VISTA
 
 // Vistas de admin
 import RegistrarMuseoAdminView from "./view/admin/RegistrarMuseoAdminView";
-
-// Vistas de superadmin
 import VerPropuestasSuperAdminView from "./view/superadmin/VerPropuestasSuperAdminView";
+import Usuario from "./view/Usuario";
 
 // Componentes
 import Navbar from "./components/Navbar";
@@ -38,6 +37,7 @@ function App() {
             <Route path="/crear-solicitud" element={<RegistrarMuseoAdminView />} />
             <Route path="/ver-propuestas" element={<VerPropuestasSuperAdminView />} />
             <Route path="/construir-ruta" element={<ConstruirRutaView />} /> {/* ✅ NUEVA RUTA */}
+            <Route path="/user" element={<Usuario/>}/>
           </Routes>
         </div>
       </>

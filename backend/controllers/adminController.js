@@ -121,7 +121,6 @@ const loginAdmin = async (req, res) => {
       id: admin._id,
       email: admin.email,
       rol: admin.rol,
-      tipo: 'admin'
     };
 
     const token = jwt.sign(payload, SECRET, { expiresIn: '2h' });

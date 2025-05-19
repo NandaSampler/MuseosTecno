@@ -1,0 +1,28 @@
+.valoracion-estrellas {
+  font-size: 1.8rem;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.valoracion-estrellas .estrella {
+  margin-right: 6px;
+  transition: color 0.3s ease;
+}
+
+.valoracion-estrellas .estrella.activa {
+  color: gold;
+}
+
+textarea {
+  height: 100px;
+  resize: none; 
+  overflow: auto;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 550px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+}

@@ -17,22 +17,15 @@ function verificarToken(req, res, next) {
   });
 }
 
-function esUsuario(req, res, next) {
-  if (req.usuario.tipo === 'usuario') {
-    return next();
-  }
-  return res.status(403).json({ mensaje: 'Acceso permitido sólo a usuarios' });
-}
-
 function esAdmin(req, res, next) {
-  if (req.usuario.tipo === 'admin') {
+  if (req.usuario.rol === 'admin') {
     return next();
   }
   return res.status(403).json({ mensaje: 'Acceso permitido sólo a administradores' });
 }
 
 function esSuperAdmin(req, res, next) {
-  if (req.usuario.tipo === 'admin' && req.usuario.rol === 'superadmin') {
+  if (req.usuario.rol === 'superadmin') {
     return next();
   }
   return res.status(403).json({ mensaje: 'Acceso permitido sólo a superadministradores' });
@@ -40,7 +33,6 @@ function esSuperAdmin(req, res, next) {
 
 module.exports = {
   verificarToken,
-  esUsuario,
   esAdmin,
   esSuperAdmin,
 };

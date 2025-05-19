@@ -1,0 +1,53 @@
+.visitas-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.visitas-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.cargando,
+.sin-visitas {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+.visita-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: transform 0.2s;
+}
+
+.visita-card:hover {
+  transform: translateY(-2px);
+}
+
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.museo-nombre {
+  font-weight: bold;
+}
+
+.fecha {
+  font-style: italic;
+}
+
+.detalle-visita p {
+  margin: 6px 0;
+  color: #444;
+  line-height: 1.4;
+}
