@@ -140,6 +140,37 @@ const loginUser = async (req, res) => {
   }
 };
 
+// Agregar o quitar museo de favoritos
+const toggleFavorito = async (req, res) => {
+  const { userId } = req.params;
+  const { museoId } = req.body;
+
+  try {
+    const usuario = await Usuario.findById(userId);
+    if (!usuario) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    const index = usuario.favoritos.indexOf(museoId);
+
+    if (index === -1) {
+      usuario.favoritos.push(museoId); // agregar
+    } else {
+      usuario.favoritos.splice(index, 1); // quitar
+    }
+
+    await usuario.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Favoritos actualizados",
+      favoritos: usuario.favoritos,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error al actualizar favoritos", details: error.message });
+  }
+};
+
 
 module.exports = {
   getUsers,
@@ -148,4 +179,5 @@ module.exports = {
   deleteUser,
   updateUser,
   loginUser,
+  toggleFavorito,
 };

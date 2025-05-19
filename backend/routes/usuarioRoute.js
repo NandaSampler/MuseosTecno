@@ -6,6 +6,8 @@ const {
   deleteUser,
   updateUser,
   loginUser,
+  toggleFavorito,
+  
 } = require('../controllers/usuarioController');
 const { verificarToken} = require('../middlewares/auth');
 const router = express.Router();
@@ -26,5 +28,8 @@ router.put('/:id', verificarToken,updateUser);
 
 // Eliminar un usuario por ID
 router.delete('/:id', verificarToken,deleteUser);
+
+// Gestionar favoritos
+router.put('/:userId/favoritos', verificarToken, toggleFavorito);
 
 module.exports = router;
