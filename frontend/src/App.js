@@ -7,6 +7,7 @@ import Register from "./view/Registrar";
 import Home from "./view/Home";
 import Principal from "./view/Principal";
 import MuseoDetalle from "./view/MuseoDetalle";
+import ConstruirRutaView from "./view/ConstruirRutaView"; // 👈 NUEVA VISTA
 
 // Vistas de admin
 import RegistrarMuseoAdminView from "./view/admin/RegistrarMuseoAdminView";
@@ -36,6 +37,7 @@ function App() {
             <Route path="/museo/:id" element={<MuseoDetalle />} />
             <Route path="/crear-solicitud" element={<RegistrarMuseoAdminView />} />
             <Route path="/ver-propuestas" element={<VerPropuestasSuperAdminView />} />
+            <Route path="/construir-ruta" element={<ConstruirRutaView />} /> {/* ✅ NUEVA RUTA */}
           </Routes>
         </div>
       </>

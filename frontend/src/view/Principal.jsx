@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import CardMuseo from "../components/CardMuseo";
 import axios from "axios";
 import "../css/Principal.css";
 
-
 const Principal = () => {
-  const { departamentoId } = useParams(); 
+  const { departamentoId } = useParams();
+  const navigate = useNavigate();
   const [museos, setMuseos] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -14,10 +14,12 @@ const Principal = () => {
     const fetchMuseos = async () => {
       try {
         const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4000";
-const response = await axios.get(`${API_URL}/api/museos`);
+        const response = await axios.get(`${API_URL}/api/museos`);
 
         const filtrados = response.data.filter(
-          (museo) => museo.departamento_id._id === departamentoId
+          (museo) =>
+            museo.departamento_id?._id === departamentoId &&
+            museo.estado === "aceptado"
         );
         setMuseos(filtrados);
       } catch (error) {
@@ -36,11 +38,20 @@ const response = await axios.get(`${API_URL}/api/museos`);
   return (
     <div className="principal-container">
       <h2 className="principal-title">Museos del Departamento</h2>
+
       <div className="principal-grid">
         {museos.map((museo) => (
           <CardMuseo key={museo._id} museo={museo} />
         ))}
       </div>
+
+      <button
+        className="btn-construir-ruta"
+        onClick={() => navigate("/construir-ruta", { state: { departamentoId } })}
+      >
+        Construye tu ruta
+      </button>
+
     </div>
   );
 };
