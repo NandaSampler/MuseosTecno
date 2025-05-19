@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 import '../../css/RegistrarMuseo.css';
+import { FaUniversity, FaMapMarkerAlt, FaLandmark, FaList, FaClock, FaImage } from 'react-icons/fa';
 
 const diasSemana = [
   "Lunes", "Martes", "Miércoles", "Jueves",
@@ -21,12 +22,7 @@ const RegistrarMuseoAdminView = () => {
 
   const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
   const [horarios, setHorarios] = useState(
-    diasSemana.map(dia => ({
-      dia,
-      apertura: '',
-      cierre: '',
-      cerrado: false
-    }))
+    diasSemana.map(dia => ({ dia, apertura: '', cierre: '', cerrado: false }))
   );
 
   const [foto, setFoto] = useState(null);
@@ -97,93 +93,78 @@ const RegistrarMuseoAdminView = () => {
   };
 
   return (
-    <div className="registro-container">
-      <h2>Registrar nuevo museo</h2>
-      <form onSubmit={handleSubmit} className="form-museo">
+    <div className="container">
+      <form onSubmit={handleSubmit}>
+        <div className="row">
+          <h4>Datos del Museo</h4>
+          <div className="input-group input-group-icon">
+            <input type="text" name="nombre" placeholder="Nombre del museo" value={form.nombre} onChange={handleChange} required />
+            <div className="input-icon"><FaLandmark /></div>
+          </div>
+          <div className="input-group input-group-icon">
+            <input type="text" name="ubicacion" placeholder="Ubicación" value={form.ubicacion} onChange={handleChange} required />
+            <div className="input-icon"><FaMapMarkerAlt /></div>
+          </div>
+          <div className="input-group">
+            <textarea name="historia" placeholder="Historia" value={form.historia} onChange={handleChange} required />
+          </div>
+          <div className="input-group">
+            <textarea name="descripcion" placeholder="Descripción" value={form.descripcion} onChange={handleChange} required />
+          </div>
+          <div className="input-group">
+            <select name="departamento_id" value={form.departamento_id} onChange={handleChange} required>
+              <option value="">Seleccione un departamento</option>
+              {departamentos.map((d) => (
+                <option key={d._id} value={d._id}>{d.nombre}</option>
+              ))}
+            </select>
+          </div>
+          <div className="input-group">
+            <Select
+              options={categoriasDisponibles}
+              isMulti
+              value={categoriasSeleccionadas}
+              onChange={setCategoriasSeleccionadas}
+              placeholder="Seleccione categorías..."
+            />
+          </div>
+        </div>
 
-        <label>Nombre del museo:
-          <input type="text" name="nombre" value={form.nombre} onChange={handleChange} required />
-        </label>
-
-        <label>Ubicación:
-          <input type="text" name="ubicacion" value={form.ubicacion} onChange={handleChange} required />
-        </label>
-
-        <label>Historia:
-          <textarea name="historia" value={form.historia} onChange={handleChange} required />
-        </label>
-
-        <label>Descripción:
-          <textarea name="descripcion" value={form.descripcion} onChange={handleChange} required />
-        </label>
-
-        <label>Departamento:
-          <select name="departamento_id" value={form.departamento_id} onChange={handleChange} required>
-            <option value="">Seleccione un departamento</option>
-            {departamentos.map((d) => (
-              <option key={d._id} value={d._id}>{d.nombre}</option>
-            ))}
-          </select>
-        </label>
-
-        <label>Categorías:</label>
-        <Select
-          options={categoriasDisponibles}
-          isMulti
-          value={categoriasSeleccionadas}
-          onChange={setCategoriasSeleccionadas}
-          placeholder="Seleccione categorías..."
-        />
-
-        <div className="horarios-box">
-          <h3>Horarios</h3>
+        <div className="row">
+          <h4><FaClock /> Horarios</h4>
           {horarios.map((horario, index) => (
-            <div key={horario.dia} className="horario-dia">
-              <div className="horario-header">
-                <strong>{horario.dia}</strong>
-                <label className="cerrado-label">
-                  <input
-                    type="checkbox"
-                    checked={horario.cerrado}
-                    onChange={() => handleCerradoChange(index)}
-                  />
-                  Cerrado
-                </label>
-              </div>
-
+            <div key={horario.dia} className="input-group">
+              <strong>{horario.dia}</strong>
+              <label>
+                <input type="checkbox" checked={horario.cerrado} onChange={() => handleCerradoChange(index)} /> Cerrado
+              </label>
               {!horario.cerrado && (
-                <div className="horas-flex">
-                  <label>
-                    Apertura:
-                    <input
-                      type="time"
-                      value={horario.apertura}
-                      onChange={(e) => handleHorarioChange(index, 'apertura', e.target.value)}
-                    />
-                  </label>
-                  <label>
-                    Cierre:
-                    <input
-                      type="time"
-                      value={horario.cierre}
-                      onChange={(e) => handleHorarioChange(index, 'cierre', e.target.value)}
-                    />
-                  </label>
+                <div className="row">
+                  <div className="col-half">
+                    <input type="time" value={horario.apertura} onChange={(e) => handleHorarioChange(index, 'apertura', e.target.value)} placeholder="Apertura" />
+                  </div>
+                  <div className="col-half">
+                    <input type="time" value={horario.cierre} onChange={(e) => handleHorarioChange(index, 'cierre', e.target.value)} placeholder="Cierre" />
+                  </div>
                 </div>
               )}
             </div>
           ))}
         </div>
 
-        <label>Foto principal:
-          <input type="file" accept="image/*" onChange={(e) => setFoto(e.target.files[0])} required />
-        </label>
+        <div className="row">
+          <h4><FaImage /> Imágenes</h4>
+          <div className="input-group">
+            <input type="file" accept="image/*" onChange={(e) => setFoto(e.target.files[0])} required />
+          </div>
+          <div className="input-group">
+            <input type="file" accept="image/*" multiple onChange={(e) => setGaleria([...e.target.files])} required />
+          </div>
+        </div>
 
-        <label>Galería (mínimo 2 imágenes):
-          <input type="file" accept="image/*" multiple onChange={(e) => setGaleria([...e.target.files])} required />
-        </label>
-
-        <button type="submit">Registrar</button>
+        <div className="row">
+          <button type="submit">Registrar Museo</button>
+        </div>
       </form>
     </div>
   );

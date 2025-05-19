@@ -1,91 +1,143 @@
-.registro-container {
-    max-width: 600px;
-    margin: 2rem auto;
-    background: #f4f4f4;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  }
-  
-  .registro-container h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-museo label {
-    display: block;
-    margin-bottom: 1rem;
-    font-weight: bold;
-  }
-  
-  .form-museo input,
-  .form-museo textarea,
-  .form-museo select {
-    width: 100%;
-    padding: 0.6rem;
-    margin-top: 0.3rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .form-museo button {
-    margin-top: 1rem;
-    width: 100%;
-    padding: 0.75rem;
-    background: #4CAF50;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .form-museo button:hover {
-    background: #388e3c;
-  }
-  
-  .horarios-box {
-  margin-top: 1.5rem;
-  background-color: #ffffff;
-  padding: 1rem;
+/* Base & Layout */
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 15px;
+  background-color: #e3e3e3;
+  color: #444;
+}
+
+.container {
+  max-width: 800px;
+  padding: 2em 3em;
+  margin: 2em auto;
+  background-color: #fff;
   border-radius: 8px;
-  border: 1px solid #ddd;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.horario-dia {
-  margin-bottom: 1rem;
-  padding: 0.5rem;
-  border-bottom: 1px dashed #ccc;
+h4 {
+  color: #015c8f;
+  margin-bottom: 1em;
 }
 
-.horario-header {
+/* Form Groups */
+.input-group {
+  margin-bottom: 1.2em;
+  position: relative;
+}
+.input-group input,
+.input-group textarea,
+.input-group select {
+  width: 100%;
+  padding: 1em;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+.input-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+  outline: none;
+  border-color: #015c8f;
+}
+
+/* Icon support */
+.input-group-icon {
+  position: relative;
+}
+.input-group-icon input {
+  padding-left: 3.4em;
+}
+.input-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3.4em;
+  height: 100%;
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 1rem;
-  margin-top: 0.5rem;
+  color: #aaa;
+  border-right: 1px solid #ccc;
 }
 
-.cerrado-label {
-  font-weight: normal;
-  font-size: 0.9rem;
+/* Row & Column Layout */
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.row {
+  margin-bottom: 2em;
+}
+.col-half {
+  float: left;
+  width: 50%;
+  padding-right: 10px;
+}
+.col-half:last-child {
+  padding-right: 0;
+}
+@media (max-width: 540px) {
+  .col-half {
+    width: 100%;
+    padding-right: 0;
+  }
+}
+
+/* File inputs */
+input[type="file"] {
+  padding: 0.5em;
+  border: 1px dashed #ccc;
+  background-color: #fafafa;
   cursor: pointer;
 }
 
-.horas-flex {
-  display: flex;
-  gap: 1rem;
-  margin-top: 0.5rem;
+/* Checkbox */
+input[type="checkbox"] {
+  margin-right: 0.5em;
 }
 
-.horas-flex label {
-  flex: 1;
+/* Button */
+button[type="submit"] {
+  background-color: #015c8f;
+  color: white;
+  padding: 1em;
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+button[type="submit"]:hover {
+  background-color: #015c8f;
 }
 
-.cerrado-label {
-  margin-left: 1rem;
-  font-weight: normal;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
+/* React Select override */
+.css-13cymwt-control {
+  border-radius: 4px !important;
+  border: 1px solid #ccc !important;
+  padding: 2px;
+  min-height: 48px;
+}
+.css-1dimb5e-singleValue {
+  color: #444 !important;
+}
+
+/* Horario styling */
+.input-group strong {
+  display: block;
+  margin-bottom: 0.4em;
+  color: #333;
 }

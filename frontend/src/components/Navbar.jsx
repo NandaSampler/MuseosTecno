@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaBars, FaUserCircle, FaTimes } from "react-icons/fa";
+import {
+  FaBars,
+  FaUserCircle,
+  FaTimes,
+  FaHome,
+  FaLandmark,
+  FaHistory,
+  FaEnvelope,
+  FaPlus,
+  FaGavel,
+  FaUniversity,
+} from "react-icons/fa";
 import { jwtDecode } from "jwt-decode";
 import "../css/Navbar.css";
 
@@ -37,11 +48,7 @@ const Navbar = () => {
         </div>
         <div className="navbar-profile">
           <Link to="/user">
-            <FaUserCircle
-              size={36}
-              color="#fff"
-              style={{ cursor: "pointer" }}
-            />
+            <FaUserCircle size={36} color="#fff" style={{ cursor: "pointer" }} />
           </Link>
         </div>
       </nav>
@@ -54,30 +61,43 @@ const Navbar = () => {
         </div>
         <ul className="sidebar-links">
           <li>
-            <a href="#inicio">Inicio</a>
+            <Link to="/inicio" onClick={closeSidebar}>
+              <FaHome /> Inicio
+            </Link>
           </li>
           <li>
-            <a href="#historia">Historia</a>
+            <a href="#historia" onClick={closeSidebar}>
+              <FaHistory /> Historia
+            </a>
           </li>
           <li>
-            <a href="#lugares">Lugares</a>
+            <a href="#lugares" onClick={closeSidebar}>
+              <FaLandmark /> Lugares
+            </a>
           </li>
           <li>
-            <a href="#contacto">Contacto</a>
+            <a href="#contacto" onClick={closeSidebar}>
+              <FaEnvelope /> Contacto
+            </a>
           </li>
 
           {isAdmin && (
             <>
               <li>
-                <Link to="/crear-solicitud">Crear Solicitud</Link>
+                <Link to="/crear-solicitud" onClick={closeSidebar}>
+                  <FaPlus /> Crear Solicitud
+                </Link>
               </li>
               <li>
-                <Link to="/mis-museos">Mis Museos</Link>
+                <Link to="/mis-museos" onClick={closeSidebar}>
+                  <FaUniversity /> Mis Museos
+                </Link>
               </li>
               <li>
-                <Link to="/ver-propuestas">Ver Propuestas</Link>
-              </li>{" "}
-              {/* NUEVO */}
+                <Link to="/ver-propuestas" onClick={closeSidebar}>
+                  <FaGavel /> Ver Propuestas
+                </Link>
+              </li>
             </>
           )}
         </ul>
