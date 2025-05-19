@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/CardMuseo.css";
 import { jwtDecode } from "jwt-decode";
 
-const CardMuseo = ({ museo }) => {
+const CardMuseo = ({ museo, favoritosUsuario = [] }) => {
   const navigate = useNavigate();
   const [favorito, setFavorito] = useState(false);
-
   const token = localStorage.getItem("token");
   let userId = "";
 
@@ -19,12 +18,20 @@ const CardMuseo = ({ museo }) => {
     }
   }
 
+  // ✅ Verifica si este museo está en favoritosUsuario
+  useEffect(() => {
+    const idsFavoritos = favoritosUsuario.map(fav =>
+      typeof fav === "string" ? fav : fav._id?.toString()
+    );
+    setFavorito(idsFavoritos.includes(museo._id?.toString()));
+  }, [favoritosUsuario, museo._id]);
+
   const handleClick = () => {
     navigate(`/museo/${museo._id}`);
   };
 
   const toggleFavorito = async (e) => {
-    e.stopPropagation(); // evitar navegación
+    e.stopPropagation();
     const nuevoEstado = !favorito;
     setFavorito(nuevoEstado);
 
@@ -41,7 +48,7 @@ const CardMuseo = ({ museo }) => {
       const data = await res.json();
       if (!res.ok) {
         console.error("❌ Error al actualizar favoritos:", data.error || data.message);
-        setFavorito(!nuevoEstado); // revertir cambio en la UI si falla
+        setFavorito(!nuevoEstado); // revertir si falla
       }
     } catch (error) {
       console.error("❌ Error de red:", error);

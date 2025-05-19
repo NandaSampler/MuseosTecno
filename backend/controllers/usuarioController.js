@@ -140,26 +140,37 @@ const loginUser = async (req, res) => {
   }
 };
 
-// Agregar o quitar museo de favoritos
 const toggleFavorito = async (req, res) => {
   const { userId } = req.params;
   const { museoId } = req.body;
 
+  console.log("📥 Petición recibida para toggleFavorito:");
+  console.log("🔑 userId:", userId);
+  console.log("🏛️ museoId:", museoId);
+
   try {
     const usuario = await Usuario.findById(userId);
     if (!usuario) {
+      console.log("❌ Usuario no encontrado");
       return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
-    const index = usuario.favoritos.indexOf(museoId);
+    console.log("✅ Usuario encontrado:", usuario.email);
+    console.log("🎯 Favoritos actuales:", usuario.favoritos.map(f => f.toString()));
+
+    const museoIdStr = museoId.toString();
+    const index = usuario.favoritos.findIndex(favId => favId.toString() === museoIdStr);
 
     if (index === -1) {
-      usuario.favoritos.push(museoId); // agregar
+      console.log("➕ Agregando museo a favoritos");
+      usuario.favoritos.push(museoId);
     } else {
-      usuario.favoritos.splice(index, 1); // quitar
+      console.log("➖ Quitando museo de favoritos");
+      usuario.favoritos.splice(index, 1);
     }
 
     await usuario.save();
+    console.log("💾 Usuario actualizado con nuevos favoritos:", usuario.favoritos.map(f => f.toString()));
 
     res.status(200).json({
       success: true,
@@ -167,9 +178,11 @@ const toggleFavorito = async (req, res) => {
       favoritos: usuario.favoritos,
     });
   } catch (error) {
-    res.status(500).json({ error: "Error al actualizar favoritos", details: error.message });
+    console.error("🔥 Error inesperado en toggleFavorito:", error);
+    res.status(500).json({ error: "Error interno al actualizar favoritos", details: error.message });
   }
 };
+
 
 
 module.exports = {
