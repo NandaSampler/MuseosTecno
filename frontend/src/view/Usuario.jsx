@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import "../css/Usuario.css";
 import ComentariosUsuario from "../components/MisComentarios";
 import VisitasUsuario from "../components/MisVisitas";
-//import FavoritosUsuario from "../components/MisFavoritos";
+import MisFavoritos from "../components/MisFavoritos";
 
 const Usuario = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Usuario = () => {
   });
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
-  const [activeTab, setActiveTab] = useState("perfil"); 
+  const [activeTab, setActiveTab] = useState("perfil");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -111,9 +111,7 @@ const Usuario = () => {
           Perfil
         </button>
         <button
-          className={`sec-button ${
-            activeTab === "comentarios" ? "active" : ""
-          }`}
+          className={`sec-button ${activeTab === "comentarios" ? "active" : ""}`}
           onClick={() => setActiveTab("comentarios")}
         >
           Comentarios
@@ -124,16 +122,14 @@ const Usuario = () => {
         >
           Visitas
         </button>
-        {/* Favoritos
         <button
-          className={`sec-button ${
-            activeTab === "favoritos" ? "active" : ""
-          }`}
+          className={`sec-button ${activeTab === "favoritos" ? "active" : ""}`}
           onClick={() => setActiveTab("favoritos")}
         >
           Favoritos
-        </button>*/}
+        </button>
       </div>
+
       {activeTab === "perfil" && (
         <div className="usuario-container">
           <h2>Mi Perfil</h2>
@@ -191,10 +187,10 @@ const Usuario = () => {
           </button>
         </div>
       )}
+
       {activeTab === "comentarios" && <ComentariosUsuario />}
-
       {activeTab === "visitas" && <VisitasUsuario />}
-
+      {activeTab === "favoritos" && <MisFavoritos />}
     </>
   );
 };
