@@ -37,8 +37,16 @@ const museoSchema = new mongoose.Schema({
     type: String,
     enum: ['pendiente', 'aceptado', 'rechazado'],
     default: 'pendiente'
+  },
+  lat: {
+    type: Number,
+    required: false,
+  },
+  lng: {
+    type: Number,
+    required: false,
   }
-}, {
+},{
   collection: 'museo',
   timestamps: false,
 });

@@ -1,7 +1,31 @@
+const axios = require("axios");
 const Museo = require('../models/museoModel');
 const Dpto = require('../models/dptoModel');
 const Horario = require('../models/horarioModel');
 const MuseoCategoria = require('../models/museoCategoriaModel');
+const obtenerCoordenadas = require('../utils/geocoding');
+
+
+
+/**
+  Función para obtener coordenadas desde dirección usando Google Maps Geocoding API
+ 
+const obtenerCoordenadas = async (direccion) => {
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(direccion)}&key=${apiKey}`;
+
+  const res = await axios.get(url);
+  if (res.data.status === "OK") {
+    const location = res.data.results[0].geometry.location;
+    return {
+      lat: location.lat,
+      lng: location.lng,
+    };
+  } else {
+    throw new Error("No se pudieron obtener coordenadas para la dirección proporcionada.");
+  }
+};
+*/
 
 /**
  * Crear un nuevo museo (usando multer y datos relacionados)
@@ -10,7 +34,8 @@ const createMuseo = async (req, res) => {
   try {
     const {
       nombre,
-      ubicacion,
+      
+      acion,
       historia,
       descripcion,
       departamento_id
@@ -19,7 +44,8 @@ const createMuseo = async (req, res) => {
     const foto = req.files?.['foto']?.[0]?.filename || null;
     const galeria = req.files?.['galeria']?.map((file) => file.filename) || [];
 
-    if (!nombre || !ubicacion || !historia || !descripcion || !foto || !departamento_id) {
+    if (!nombre || !
+      acion || !historia || !descripcion || !foto || !departamento_id) {
       return res.status(400).json({ error: 'Faltan campos obligatorios.' });
     }
 
@@ -28,15 +54,30 @@ const createMuseo = async (req, res) => {
       return res.status(404).json({ error: 'Departamento no encontrado.' });
     }
 
+    // Obtener lat y lng desde la dirección
+    let lat = null;
+    let lng = null;
+    try {
+      const coords = await obtenerCoordenadas(
+        acion);
+      lat = coords.lat;
+      lng = coords.lng;
+    } catch (geoError) {
+      console.warn("Advertencia: No se pudieron obtener coordenadas:", geoError.message);
+    }
+
     const nuevoMuseo = new Museo({
       nombre,
-      ubicacion,
+      
+      acion,
       historia,
       descripcion,
       foto,
       galeria,
       departamento_id,
-      estado: 'pendiente'
+      estado: 'pendiente',
+      lat,
+      lng
     });
 
     await nuevoMuseo.save();
@@ -149,7 +190,8 @@ const getMuseoById = async (req, res) => {
 const updateMuseo = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, ubicacion, historia, descripcion, foto, departamento_id, galeria } = req.body;
+    const { nombre, 
+      acion, historia, descripcion, foto, departamento_id, galeria } = req.body;
 
     const museo = await Museo.findById(id);
     if (!museo) {
@@ -165,7 +207,24 @@ const updateMuseo = async (req, res) => {
     }
 
     if (nombre) museo.nombre = nombre;
-    if (ubicacion) museo.ubicacion = ubicacion;
+    if (
+      acion) {
+      museo.
+      acion = 
+      acion;
+
+      // Actualiza lat/lng si cambia 
+      // ación
+      try {
+        const coords = await obtenerCoordenadas(
+          acion);
+        museo.lat = coords.lat;
+        museo.lng = coords.lng;
+      } catch (geoError) {
+        console.warn("No se pudo actualizar lat/lng:", geoError.message);
+      }
+    }
+
     if (historia) museo.historia = historia;
     if (descripcion) museo.descripcion = descripcion;
     if (foto) museo.foto = foto;
