@@ -15,6 +15,8 @@ const ConstruirRutaView = () => {
   const [seleccionados, setSeleccionados] = useState([]);
   const [mostrarRuta, setMostrarRuta] = useState(false);
 
+  const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+
   useEffect(() => {
     if (!departamentoId) {
       navigate("/inicio");
@@ -98,13 +100,13 @@ const ConstruirRutaView = () => {
             ))}
           </div>
 
-          {coordenadasRuta.length > 0 && (
+          {coordenadasRuta.length > 0 && googleMapsApiKey && (
             <div style={{ height: "400px", marginTop: "30px" }}>
-              <LoadScript googleMapsApiKey="AIzaSyBmzDDdocZW_XdO3EFp6cmPz_YakNoi2yI">
+              <LoadScript googleMapsApiKey={googleMapsApiKey}>
                 <GoogleMap
                   mapContainerStyle={{ width: "100%", height: "100%" }}
                   center={coordenadasRuta[0]}
-                  zoom={10}
+                  zoom={12}
                 >
                   {coordenadasRuta.map((coord, idx) => (
                     <Marker key={idx} position={coord} />
