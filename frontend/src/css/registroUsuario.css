@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+
+/* Full-screen para registro */
+.register-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Raleway', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Hover → despliega más */
+.register-container:hover .register-top::before,
+.register-container:hover .register-top::after,
+.register-container:hover .register-bottom::before,
+.register-container:hover .register-bottom::after {
+  margin-left: 300px;            /* antes era 200px */
+  transform-origin: -300px 50%;  /* sincronizado con el margin */
+  transition-delay: 0;
+}
+
+/* Hover → revela el centro */
+.register-container:hover .register-center {
+  opacity: 1;
+  transition-delay: 0.2s;
+}
+
+/* Triángulos superior e inferior */
+.register-top::before,
+.register-top::after,
+.register-bottom::before,
+.register-bottom::after {
+  content: '';
+  position: absolute;
+  width: 200vmax;
+  height: 200vmax;
+  top: 50%;
+  left: 50%;
+  margin-top: -100vmax;
+  transform-origin: 0 50%;
+  transition: all 0.5s cubic-bezier(0.445, 0.05, 0, 1);
+  opacity: 0.65;
+  z-index: 10;
+  transition-delay: 0.2s;
+}
+
+.register-top::before    { transform: rotate(45deg);   background: #e46569; }
+.register-top::after     { transform: rotate(135deg);  background: #ecaf81; }
+.register-bottom::before { transform: rotate(-45deg);  background: #60b8d4; }
+.register-bottom::after  { transform: rotate(-135deg); background: #3745b5; }
+
+/* Panel central ampliado */
+.register-center {
+  position: absolute;
+  width: 450px;     /* antes 400px */
+  height: 550px;    /* antes 500px */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.445, 0.05, 0, 1);
+  color: #333;
+}
+
+.register-center h2 {
+  margin: 0.5rem 0;
+}
+
+.register-center input {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 1px;
+  font-family: inherit;
+}
+
+.register-center .error {
+  width: 100%;
+  text-align: left;
+  color: #c0392b;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.register-center button {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: #10b981;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.register-center button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.register-center button:hover:not(:disabled) {
+  background: #059669;
+}
+
+.register-center .login-link {
+  margin-top: 1.2rem;
+  font-size: 0.9rem;
+  color: #03396c;
+}
+.register-center .login-link span {
+  color: #1e3a8a;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: bold;
+}

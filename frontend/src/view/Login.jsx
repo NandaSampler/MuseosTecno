@@ -64,7 +64,7 @@ export default function Login() {
       <div className="login-top"></div>
       <div className="login-bottom"></div>
       <div className="login-center">
-        <h2>Please Sign In</h2>
+        <h2>Iniciar Sesion</h2>
         <form onSubmit={handleSubmit} noValidate>
           <input
             type="email"
@@ -85,7 +85,7 @@ export default function Login() {
           {errors.password && <div className="error">{errors.password}</div>}
 
           <button type="submit" disabled={loading}>
-            {loading ? "Entrando…" : "LOGIN"}
+            {loading ? "Entrando…" : "Iniciar Sesion"}
           </button>
         </form>
 

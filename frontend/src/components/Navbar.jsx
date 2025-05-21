@@ -16,24 +16,32 @@ import { jwtDecode } from "jwt-decode";
 import "../css/Navbar.css";
 
 const Navbar = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen]   = useState(false);
+  const [isAdmin, setIsAdmin]               = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin]     = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
-  const closeSidebar = () => setIsSidebarOpen(false);
+  const closeSidebar  = () => setIsSidebarOpen(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        if (decoded.rol === "admin" || decoded.rol === "superadmin") {
-          setIsAdmin(true);
-        }
-      } catch (err) {
-        console.error("Token inválido");
-        setIsAdmin(false);
-      }
+    if (!token) return;
+
+    try {
+      const decoded = jwtDecode(token);
+      // todo admin y superadmin ven estas dos opciones
+      setIsAdmin(
+        decoded.rol === "admin" ||
+        decoded.rol === "superadmin"
+      );
+      // solo superadmin ve "Ver Propuestas"
+      setIsSuperAdmin(
+        decoded.rol === "superadmin"
+      );
+    } catch (err) {
+      console.error("Token inválido", err);
+      setIsAdmin(false);
+      setIsSuperAdmin(false);
     }
   }, []);
 
@@ -48,12 +56,18 @@ const Navbar = () => {
         </div>
         <div className="navbar-profile">
           <Link to="/user">
-            <FaUserCircle size={36} color="#fff" style={{ cursor: "pointer" }} />
+            <FaUserCircle
+              size={36}
+              color="#fff"
+              style={{ cursor: "pointer" }}
+            />
           </Link>
         </div>
       </nav>
 
-      {isSidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
+      {isSidebarOpen && (
+        <div className="overlay" onClick={closeSidebar}></div>
+      )}
 
       <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
@@ -93,12 +107,15 @@ const Navbar = () => {
                   <FaUniversity /> Mis Museos
                 </Link>
               </li>
-              <li>
-                <Link to="/ver-propuestas" onClick={closeSidebar}>
-                  <FaGavel /> Ver Propuestas
-                </Link>
-              </li>
             </>
+          )}
+
+          {isSuperAdmin && (
+            <li>
+              <Link to="/ver-propuestas" onClick={closeSidebar}>
+                <FaGavel /> Ver Propuestas
+              </Link>
+            </li>
           )}
         </ul>
       </div>
