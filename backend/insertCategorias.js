@@ -12,6 +12,7 @@ const insertCategorias = async () => {
       { nombre: 'Orfebrería' },
       { nombre: 'Musica' },
       { nombre: 'Costumbrista' },
+      { nombre: 'Ciencia' },
     ];
 
     // Eliminar categorías anteriores (opcional)

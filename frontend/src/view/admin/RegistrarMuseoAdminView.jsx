@@ -71,7 +71,20 @@ const RegistrarMuseoAdminView = () => {
     }
 
     const formData = new FormData();
-    Object.entries(form).forEach(([key, val]) => formData.append(key, val));
+
+    // Construir ubicación completa con departamento y Bolivia
+    const dept = departamentos.find(d => d._id === form.departamento_id);
+    let ubicCompleta = form.ubicacion.trim();
+    if (dept) ubicCompleta += `, ${dept.nombre}`;
+    ubicCompleta += ', Bolivia';
+
+    // Añadir campos al FormData
+    formData.append('ubicacion', ubicCompleta);
+    formData.append('nombre', form.nombre);
+    formData.append('historia', form.historia);
+    formData.append('descripcion', form.descripcion);
+    formData.append('departamento_id', form.departamento_id);
+
     formData.append('foto', foto);
     galeria.forEach(img => formData.append('galeria', img));
 
@@ -82,13 +95,11 @@ const RegistrarMuseoAdminView = () => {
     formData.append('horarios', JSON.stringify(horariosValidos));
 
     try {
-      const res = await axios.post('http://localhost:4000/api/museos', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      await axios.post('http://localhost:4000/api/museos', formData);
       alert("Museo registrado correctamente");
     } catch (error) {
-      alert("Error al registrar el museo");
       console.error(error);
+      alert("Error al registrar el museo");
     }
   };
 
@@ -114,7 +125,7 @@ const RegistrarMuseoAdminView = () => {
           <div className="input-group">
             <select name="departamento_id" value={form.departamento_id} onChange={handleChange} required>
               <option value="">Seleccione un departamento</option>
-              {departamentos.map((d) => (
+              {departamentos.map(d => (
                 <option key={d._id} value={d._id}>{d.nombre}</option>
               ))}
             </select>
@@ -141,10 +152,10 @@ const RegistrarMuseoAdminView = () => {
               {!horario.cerrado && (
                 <div className="row">
                   <div className="col-half">
-                    <input type="time" value={horario.apertura} onChange={(e) => handleHorarioChange(index, 'apertura', e.target.value)} placeholder="Apertura" />
+                    <input type="time" value={horario.apertura} onChange={e => handleHorarioChange(index, 'apertura', e.target.value)} placeholder="Apertura" />
                   </div>
                   <div className="col-half">
-                    <input type="time" value={horario.cierre} onChange={(e) => handleHorarioChange(index, 'cierre', e.target.value)} placeholder="Cierre" />
+                    <input type="time" value={horario.cierre} onChange={e => handleHorarioChange(index, 'cierre', e.target.value)} placeholder="Cierre" />
                   </div>
                 </div>
               )}
@@ -155,10 +166,10 @@ const RegistrarMuseoAdminView = () => {
         <div className="row">
           <h4><FaImage /> Imágenes</h4>
           <div className="input-group">
-            <input type="file" accept="image/*" onChange={(e) => setFoto(e.target.files[0])} required />
+            <input type="file" accept="image/*" onChange={e => setFoto(e.target.files[0])} required />
           </div>
           <div className="input-group">
-            <input type="file" accept="image/*" multiple onChange={(e) => setGaleria([...e.target.files])} required />
+            <input type="file" accept="image/*" multiple onChange={e => setGaleria([...e.target.files])} required />
           </div>
         </div>
 

@@ -13,7 +13,7 @@ const museoSchema = new mongoose.Schema({
   historia: {
     type: String,
     required: true,
-    maxlength: 255,
+    maxlength: 1000,
   },
   descripcion: {
     type: String,
