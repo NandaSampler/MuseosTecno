@@ -1,0 +1,89 @@
+/* NuevaCategoriaView.css */
+
+/* Reset y tipografía base */
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 15px;
+  background-color: #e3e3e3;
+  color: #444;
+  margin: 0;
+  padding: 0;
+}
+
+/* Contenedor principal */
+.superadmin-container {
+  max-width: 500px;
+  margin: 80px auto 20px; /* espacio superior para el navbar */
+  padding: 2em;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Título */
+.superadmin-container h2 {
+  color: #015c8f;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+/* Formulario */
+.form-nueva-categoria {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em; 
+}
+
+.form-nueva-categoria .input-group {
+  margin-bottom: 1.5em;
+}
+
+.input-group {
+  margin-bottom: 1.2em;
+}
+
+.input-group input[type="text"] {
+  width: 100%;
+  padding: 1em;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.input-group input[type="text"]:focus {
+  outline: none;
+  border-color: #015c8f;
+}
+
+/* Botón */
+.form-nueva-categoria button[type="submit"] {
+  background-color: #015c8f;
+  color: #fff;
+  padding: 1em;
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 0.5em;
+}
+
+.form-nueva-categoria button[type="submit"]:hover {
+  background-color: #014a75;
+}
+
+/* Responsive */
+@media (max-width: 540px) {
+  .superadmin-container {
+    margin: 60px 15px 20px;
+    padding: 1.5em;
+  }
+}

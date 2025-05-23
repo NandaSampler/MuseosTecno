@@ -12,36 +12,37 @@ import {
   FaGavel,
   FaUniversity,
 } from "react-icons/fa";
-import { jwtDecode } from "jwt-decode";
 import "../css/Navbar.css";
 
+// Función para decodificar JWT sin depender de jwt-decode
+const decodeToken = (token) => {
+  try {
+    const payload = token.split('.')[1];
+    // atob en navegadores para decodificar base64
+    const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+    return JSON.parse(decoded);
+  } catch (e) {
+    console.error('Error al decodificar token:', e);
+    return null;
+  }
+};
+
 const Navbar = () => {
-  const [isSidebarOpen, setIsSidebarOpen]   = useState(false);
-  const [isAdmin, setIsAdmin]               = useState(false);
-  const [isSuperAdmin, setIsSuperAdmin]     = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
-  const closeSidebar  = () => setIsSidebarOpen(false);
+  const closeSidebar = () => setIsSidebarOpen(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
 
-    try {
-      const decoded = jwtDecode(token);
-      // todo admin y superadmin ven estas dos opciones
-      setIsAdmin(
-        decoded.rol === "admin" ||
-        decoded.rol === "superadmin"
-      );
-      // solo superadmin ve "Ver Propuestas"
-      setIsSuperAdmin(
-        decoded.rol === "superadmin"
-      );
-    } catch (err) {
-      console.error("Token inválido", err);
-      setIsAdmin(false);
-      setIsSuperAdmin(false);
+    const decoded = decodeToken(token);
+    if (decoded && decoded.rol) {
+      setIsAdmin(decoded.rol === "admin" || decoded.rol === "superadmin");
+      setIsSuperAdmin(decoded.rol === "superadmin");
     }
   }, []);
 
@@ -56,18 +57,12 @@ const Navbar = () => {
         </div>
         <div className="navbar-profile">
           <Link to="/user">
-            <FaUserCircle
-              size={36}
-              color="#fff"
-              style={{ cursor: "pointer" }}
-            />
+            <FaUserCircle size={36} color="#fff" style={{ cursor: "pointer" }} />
           </Link>
         </div>
       </nav>
 
-      {isSidebarOpen && (
-        <div className="overlay" onClick={closeSidebar}></div>
-      )}
+      {isSidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
 
       <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
@@ -111,11 +106,18 @@ const Navbar = () => {
           )}
 
           {isSuperAdmin && (
-            <li>
-              <Link to="/ver-propuestas" onClick={closeSidebar}>
-                <FaGavel /> Ver Propuestas
-              </Link>
-            </li>
+            <>
+              <li>
+                <Link to="/ver-propuestas" onClick={closeSidebar}>
+                  <FaGavel /> Ver Propuestas
+                </Link>
+              </li>
+              <li>
+                <Link to="/superadmin/categorias/nueva" onClick={closeSidebar}>
+                  <FaPlus /> Agregar Categoría
+                </Link>
+              </li>
+            </>
           )}
         </ul>
       </div>

@@ -12,6 +12,7 @@ import ConstruirRutaView from "./view/ConstruirRutaView"; // 👈 NUEVA VISTA
 // Vistas de admin
 import RegistrarMuseoAdminView from "./view/admin/RegistrarMuseoAdminView";
 import VerPropuestasSuperAdminView from "./view/superadmin/VerPropuestasSuperAdminView";
+import NuevaCategoriaView from "./view/superadmin/NuevaCategoriaView"; // 👈 NUEVA CLASE
 import Usuario from "./view/Usuario";
 
 // Componentes
@@ -36,8 +37,9 @@ function App() {
             <Route path="/museo/:id" element={<MuseoDetalle />} />
             <Route path="/crear-solicitud" element={<RegistrarMuseoAdminView />} />
             <Route path="/ver-propuestas" element={<VerPropuestasSuperAdminView />} />
+            <Route path="/superadmin/categorias/nueva" element={<NuevaCategoriaView />} />  {/* 👈 RUTA AGREGADA */}
             <Route path="/construir-ruta" element={<ConstruirRutaView />} /> {/* ✅ NUEVA RUTA */}
-            <Route path="/user" element={<Usuario/>}/>
+            <Route path="/user" element={<Usuario />} />
           </Routes>
         </div>
       </>
