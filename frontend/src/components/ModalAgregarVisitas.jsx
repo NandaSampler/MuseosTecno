@@ -186,16 +186,21 @@ export default function VisitModal({
             <label htmlFor="guia">¿Desea guía?</label>
           </div>
 
-          <div className="form-group">
-            <label>Idioma del guía</label>
-            <select value={idioma} onChange={(e) => setIdioma(e.target.value)}>
-              <option>Español</option>
-              <option>Inglés</option>
-              <option>Francés</option>
-              <option>Portugués</option>
-              <option>Otro</option>
-            </select>
-          </div>
+          {guia && (
+            <div className="form-group">
+              <label>Idioma del guía</label>
+              <select
+                value={idioma}
+                onChange={(e) => setIdioma(e.target.value)}
+              >
+                <option>Español</option>
+                <option>Inglés</option>
+                <option>Francés</option>
+                <option>Portugués</option>
+                <option>Otro</option>
+              </select>
+            </div>
+          )}
 
           <div className="form-buttons">
             <button type="button" onClick={onClose} className="cancel-button">

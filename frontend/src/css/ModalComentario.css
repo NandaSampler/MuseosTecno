@@ -39,9 +39,9 @@
   color: #ccc;
   cursor: pointer;
   display: flex;
-  justify-content: center;   /* <--- centra las estrellas */
-  gap: 12px;                 /* un poco más de espacio entre ellas */
-  font-size: 2.8rem;         /* <--- aumenta su tamaño */
+  justify-content: center;   
+  gap: 12px;                 
+  font-size: 2.8rem;         
   margin-bottom: 16px;
 }
 
