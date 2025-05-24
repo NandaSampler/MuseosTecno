@@ -13,6 +13,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.pages {
+  padding: 20px; /* general */
+}
+
+.fullscreen-detalle ~ /* selector que anule padding en .pages, si es necesario */ {
+  padding: 0 !important;
+}
 
 /* === Estilos App === */
 .App {
