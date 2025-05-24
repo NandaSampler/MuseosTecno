@@ -44,43 +44,80 @@
   font-family: 'Raleway', sans-serif;
 }
 
-/* Carrusel */
 .carrusel-wrapper {
   position: relative;
   margin-bottom: 2rem;
+  padding: 10px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #ecaf81 0%, #60b8d4 100%);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
+
 .museo-carrusel {
   display: flex;
   gap: 16px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding-bottom: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #f97316 #ffffff;
 }
+
+.museo-carrusel::-webkit-scrollbar {
+  height: 8px;
+}
+.museo-carrusel::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+.museo-carrusel::-webkit-scrollbar-thumb {
+  background-color: #f97316;
+  border-radius: 8px;
+}
+
 .museo-img {
   flex: 0 0 auto;
-  width: 260px; height: 160px;
+  width: 260px;
+  height: 160px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 12px;
   scroll-snap-align: start;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 4px solid #fff;
 }
 .museo-img:hover {
-  transform: scale(1.03);
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.25);
 }
+
+/* Botones de carrusel */
 .carrusel-btn {
   position: absolute;
-  top: 50%; transform: translateY(-50%);
-  background: rgba(0,0,0,0.4);
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #e46569, #3745b5);
   color: #fff;
   border: none;
-  width: 36px; height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 1.25rem;
+  font-size: 1.4rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: background 0.3s ease;
+  z-index: 5;
 }
-.carrusel-btn.izquierda { left: -10px; }
-.carrusel-btn.derecha  { right: -10px; }
+.carrusel-btn:hover {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+}
+.carrusel-btn.izquierda {
+  left: -20px;
+}
+.carrusel-btn.derecha {
+  right: -20px;
+}
+
 
 /* Resumen de información */
 .info-resumen {

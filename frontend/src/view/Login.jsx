@@ -17,7 +17,7 @@ export default function Login() {
     if (!email) errs.email = "El email es requerido";
     else if (!emailRegex.test(email)) errs.email = "Formato de email inválido";
     if (!password) errs.password = "La contraseña es requerida";
-    else if (password.length < 6) errs.password = "Mínimo 6 caracteres";
+    else if (password.length < 8) errs.password = "Mínimo 8 caracteres";
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
