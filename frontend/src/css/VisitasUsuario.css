@@ -1,5 +1,5 @@
 .visitas-container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 40px auto;
   padding: 0 20px;
 }
@@ -7,47 +7,61 @@
 .visitas-container h2 {
   text-align: center;
   margin-bottom: 30px;
-  color: #333;
+  font-size: 2rem;
+  color: #222;
 }
 
 .cargando,
 .sin-visitas {
   text-align: center;
-  color: #666;
+  color: #888;
   font-style: italic;
+  font-size: 1.1rem;
+  margin-top: 40px;
 }
 
+/* TARJETA DE VISITA */
 .visita-card {
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   padding: 20px;
-  margin-bottom: 20px;
-  transition: transform 0.2s;
+  min-width: 280px;
+  max-width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .visita-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
+/* ENCABEZADO: nombre museo y fecha */
 .info-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  align-items: center;
   font-size: 0.9rem;
-  color: #555;
+  color: #666;
+  margin-bottom: 10px;
 }
 
 .museo-nombre {
   font-weight: bold;
+  color: #333;
 }
 
 .fecha {
   font-style: italic;
 }
 
+/* DETALLE DE VISITA */
 .detalle-visita p {
   margin: 6px 0;
   color: #444;
-  line-height: 1.4;
+  line-height: 1.6;
+  font-size: 1rem;
 }

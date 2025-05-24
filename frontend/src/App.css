@@ -4,6 +4,8 @@ body {
   margin: 0;
   padding: 0;
   color: var(--color-texto-oscuro);
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 :root {
   /* Colores personalizados */
@@ -24,6 +26,10 @@ body {
   --color-chip-bg: #d1cff3;
   --color-chip-text: #252249;
   --color-estrella: #f9b01d;
+  --card-radius: 12px;
+  --overlay-color: rgba(0, 0, 0, 0.4);
+  --title-size: 2rem;
+  --transition-speed: 0.3s;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
