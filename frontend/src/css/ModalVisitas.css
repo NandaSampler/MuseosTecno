@@ -1,15 +1,3 @@
-:root {
-  --color-primary: #5e65b1;
-  --color-secondary: #e4e4e4;
-  --color-background: #ffffff;
-  --color-overlay: rgba(0, 0, 0, 0.4);
-  --color-text: #333333;
-  --color-border: #cccccc;
-  --color-error: #e74c3c;
-  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  --border-radius: 8px;
-  --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
 
 .modal-overlay {
   position: fixed;
@@ -27,8 +15,8 @@
 }
 
 .modal-card {
-  background-color: var(--color-background);
-  border-radius: var(--border-radius);
+  background-color: #ffffff;
+  border-radius: var(--radio-border);
   box-shadow: var(--box-shadow);
   padding: 2rem;
   width: 100%;
@@ -59,7 +47,7 @@
 .form-group label {
   font-weight: 500;
   font-family: var(--font-family);
-  color: var(--color-text);
+  color: var(#333333);
 }
 
 .form-group input,
@@ -67,7 +55,7 @@
 .form-group textarea {
   padding: 0.5rem;
   border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
+  border-radius: var(--radio-border);
   font-family: var(--font-family);
   font-size: 1rem;
   outline: none;
@@ -76,7 +64,7 @@
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  border-color: var(#5e65b1);
+  border-color: #5e65b1;
   box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
 }
 
@@ -108,7 +96,7 @@
 .submit-button {
   padding: 0.6rem 1.2rem;
   border: none;
-  border-radius: var(--border-radius);
+  border-radius: 8px;
   font-family: var(--font-family);
   font-size: 1rem;
   cursor: pointer;
@@ -117,7 +105,6 @@
 
 .cancel-button {
   background-color: #cccccc;
-  color: #fff;
 }
 
 .cancel-button:hover {
@@ -125,10 +112,9 @@
 }
 
 .submit-button {
-  background-color: var(#5e65b1);
-  color: white;
+  background: #7883cc;
 }
 
 .submit-button:hover {
-  background-color: var(--color-secondary);
+  background: #5e65b8;
 }

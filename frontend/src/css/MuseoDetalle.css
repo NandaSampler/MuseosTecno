@@ -1,26 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap');
 
-:root {
-  --color-principal: #7c83cc;
-  --color-secundario: #e4e4e4;
-  --sombra-suave: rgba(0, 0, 0, 0.1);
-  --sombra-hover: rgba(0, 0, 0, 0.2);
-  --color-texto-oscuro: #1e1e1e;
-  --color-texto-medio: #333;
-  --color-chip-bg: #d1cff3;
-  --color-chip-text: #252249;
-  --color-estrella: #f9b01d;
-}
-
-/* GLOBAL */
-body {
-  font-family: 'Raleway', sans-serif;
-  background: linear-gradient(to bottom, #fdf6f6, #f5f6fa);
-  margin: 0;
-  padding: 0;
-  color: var(--color-texto-medio);
-}
-
 /* CONTENEDOR PRINCIPAL */
 .detalle-museo-container {
   position: fixed;
@@ -98,7 +77,7 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: #4c44bd;
+  background: #7883cc;
   color: #fff;
   border: none;
   width: 48px;
@@ -111,7 +90,7 @@ body {
   z-index: 5;
 }
 .carrusel-btn:hover {
-  background: #7773b1;
+  background: #817ccc;
 }
 .carrusel-btn.izquierda { left: -24px; }
 .carrusel-btn.derecha   { right: -24px; }
@@ -147,7 +126,7 @@ body {
 }
 
 .boton-agendar {
-  background: #4c44bd;
+  background: #7883cc;
   color: #fff;
   padding: 1rem 2.5rem;
   border: none;
@@ -160,7 +139,7 @@ body {
 }
 
 .boton-agendar:hover {
-  background: #7773b1;
+  background: #827dc9;
 }
 
 /* BLOQUES DE INFORMACIÓN */
@@ -272,8 +251,8 @@ body {
 
 .comentario-placeholder {
   background: #fff;
-  border: 2px dashed #7773b1;
-  color: #7773b1;
+  border: 2px dashed #6d7bd4;
+  color: #7883cc;
   font-style: italic;
   padding: 26px;
   border-radius: 12px;
@@ -281,15 +260,16 @@ body {
   font-size: 1.1rem;
 }
 .comentario-placeholder:hover {
-  background: var(--color-secundario);
-  color: #6862af;
-  border-color: var(--color-principal);
+  background:#d2d3d3;
+  color: #7883cc;
+  border-color: #7883cc;
 }
 
 /* CHIPS DE CATEGORÍA */
 .categoria-chips {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 10px;
   margin-top: 1rem;
 }

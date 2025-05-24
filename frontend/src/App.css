@@ -1,14 +1,30 @@
 /* === Reset y base === */
 body {
+  font-family: 'Raleway', sans-serif;
   margin: 0;
-  overflow: auto; /* Cambiado de 'hidden' a 'auto' para permitir scroll */
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  color: var(--color-texto-oscuro);
 }
-
+:root {
+  /* Colores personalizados */
+  --color-principal: #95cee1;
+  --color-secundario: #91adc0;
+  --color-texto-claro: #ffffff;
+  --color-texto-oscuro: #1e1e1e;
+  --sombra-suave: rgba(0, 0, 0, 0.08);
+  --sombra-hover: rgba(0, 0, 0, 0.15);
+  --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  --color-overlay: rgba(0, 0, 0, 0.4);
+  --color-border: #cccccc;
+  --radio-bordes: 8px;
+  --color-error: #e74c3c;
+  --espaciado-base: 1rem;
+  --transition: 0.3s ease;
+  --color-texto-medio: #333;
+  --color-chip-bg: #d1cff3;
+  --color-chip-text: #252249;
+  --color-estrella: #f9b01d;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

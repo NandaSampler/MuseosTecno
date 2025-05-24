@@ -94,7 +94,7 @@
 }
 
 .modal-botones .btn-cancelar {
-  background: var(--color-secundario);
+  background: #d8d8d8;
   color: #333;
 }
 
@@ -103,7 +103,7 @@
 }
 
 .modal-botones .btn-enviar {
-  background: var(--color-principal);
+  background: #7883cc;
   color: #fff;
 }
 

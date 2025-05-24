@@ -104,31 +104,31 @@ const Usuario = () => {
   return (
     <>
       <div className="nav-buttons">
-        <button
-          className={`sec-button ${activeTab === "perfil" ? "active" : ""}`}
-          onClick={() => setActiveTab("perfil")}
-        >
-          Perfil
-        </button>
-        <button
-          className={`sec-button ${activeTab === "comentarios" ? "active" : ""}`}
-          onClick={() => setActiveTab("comentarios")}
-        >
-          Comentarios
-        </button>
-        <button
-          className={`sec-button ${activeTab === "visitas" ? "active" : ""}`}
-          onClick={() => setActiveTab("visitas")}
-        >
-          Visitas
-        </button>
-        <button
-          className={`sec-button ${activeTab === "favoritos" ? "active" : ""}`}
-          onClick={() => setActiveTab("favoritos")}
-        >
-          Favoritos
-        </button>
-      </div>
+  <button
+    className={`sec-button perfil ${activeTab === "perfil" ? "active" : ""}`}
+    onClick={() => setActiveTab("perfil")}
+  >
+    Perfil
+  </button>
+  <button
+    className={`sec-button comentarios ${activeTab === "comentarios" ? "active" : ""}`}
+    onClick={() => setActiveTab("comentarios")}
+  >
+    Comentarios
+  </button>
+  <button
+    className={`sec-button visitas ${activeTab === "visitas" ? "active" : ""}`}
+    onClick={() => setActiveTab("visitas")}
+  >
+    Visitas
+  </button>
+  <button
+    className={`sec-button favoritos ${activeTab === "favoritos" ? "active" : ""}`}
+    onClick={() => setActiveTab("favoritos")}
+  >
+    Favoritos
+  </button>
+</div>
 
       {activeTab === "perfil" && (
         <div className="usuario-container">
