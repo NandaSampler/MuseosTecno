@@ -48,55 +48,35 @@ export default function ComentarioModal({ isOpen, onClose, onSubmit, museo }) {
 
     onClose(); 
   };
-
+  const handleCancelar = onClose;
+  const handleEnviar   = handleSubmit;
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-card">
-        <h2 className="modal-title">Agregar Comentario</h2>
-        <form onSubmit={handleSubmit} className="modal-form">
-          <div className="form-group">
-            <label>Museo</label>
-            <input type="text" value={museo.nombre} disabled readOnly />
-          </div>
-
-          <div className="form-group">
-            <label>Valoración</label>
-            <div className="valoracion-estrellas">
-              {[1, 2, 3, 4, 5].map((num) => (
-                <span
-                  key={num}
-                  className={`estrella ${valoracion >= num ? "activa" : ""}`}
-                  onClick={() => setValoracion(num)}
-                >
-                  ★
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label>Comentario</label>
-            <textarea
-              value={comentario}
-              onChange={(e) => setComentario(e.target.value)}
-              placeholder="Escribe tu comentario..."
-              required
-              rows="4"
-            />
-          </div>
-
-          <div className="form-buttons">
-            <button type="button" onClick={onClose} className="cancel-button">
-              Cancelar
-            </button>
-            <button type="submit" className="submit-button">
-              Enviar
-            </button>
-          </div>
-        </form>
-      </div>
+<div className="modal-overlay">
+    <div className="modal-card">
+      <h3>Deja tu comentario</h3>
+  <div className="valoracion-estrellas">
+    {[1, 2, 3, 4, 5].map(n => (
+      <span
+        key={n}
+        className={`estrella ${n <= valoracion ? 'activa' : ''}`}
+        onClick={() => setValoracion(n)}
+      >
+        ★
+      </span>
+    ))}
+  </div>
+  <textarea
+    value={comentario}
+    onChange={(e) => setComentario(e.target.value)}
+    placeholder="Escribe tu experiencia..."
+  />
+  <div className="modal-botones">
+    <button className="btn-cancelar" onClick={handleCancelar}>Cancelar</button>
+    <button className="btn-enviar" onClick={handleEnviar}>Enviar</button>
+  </div>
     </div>
+  </div>
   );
 }
