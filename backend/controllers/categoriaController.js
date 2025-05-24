@@ -1,3 +1,24 @@
+// models/categoriaModel.js
+const mongoose = require('mongoose');
+
+const categoriaSchema = new mongoose.Schema({
+  nombre: {
+    type: String,
+    required: [true, 'El nombre de la categoría es obligatorio'],
+    maxlength: [100, 'El nombre no puede tener más de 100 caracteres'],
+    trim: true,
+    unique: true  // Evita duplicados
+  },
+}, {
+  collection: 'categoria',
+  timestamps: false,
+});
+
+const Categoria = mongoose.model('Categoria', categoriaSchema);
+module.exports = Categoria;
+
+
+// controllers/categoriaController.js
 const Categoria = require('../models/categoriaModel');
 
 /**
@@ -19,6 +40,10 @@ const createCategoria = async (req, res) => {
       categoria: nuevaCategoria,
     });
   } catch (error) {
+    // Manejo de error de clave única
+    if (error.code === 11000) {
+      return res.status(400).json({ error: 'Ya existe una categoría con ese nombre.' });
+    }
     return res.status(500).json({
       error: 'Error interno al crear la categoría.',
       details: error.message,
@@ -79,15 +104,17 @@ const updateCategoria = async (req, res) => {
       return res.status(404).json({ message: 'Categoría no encontrada.' });
     }
 
-    if (nombre) categoria.nombre = nombre.trim();
-
-    await categoria.save();
-
-    return res.status(200).json({
-      message: 'Categoría actualizada.',
-      categoria,
-    });
+    if (nombre && nombre.trim() !== categoria.nombre) {
+      categoria.nombre = nombre.trim();
+      await categoria.save();
+      return res.status(200).json({ message: 'Categoría actualizada.', categoria });
+    }
+    return res.status(200).json({ message: 'No hubo cambios.', categoria });
   } catch (error) {
+    // Manejo de duplicados en actualización
+    if (error.code === 11000) {
+      return res.status(400).json({ error: 'Ya existe una categoría con ese nombre.' });
+    }
     return res.status(500).json({
       error: 'Error al actualizar la categoría.',
       details: error.message,

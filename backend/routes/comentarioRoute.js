@@ -5,6 +5,8 @@ const {
   getComentarioById,
   updateComentario,
   deleteComentario,
+  getComentariosPorMuseo,
+  getComentariosPorUsuario,
 } = require('../controllers/comentarioController');
 
 const router = express.Router();
@@ -15,6 +17,9 @@ router.post('/', createComentario);
 // Obtener todos los comentarios
 router.get('/', getComentarios);
 
+// Obtener comentarios por ID de museo
+router.get('/museo/:museoId', getComentariosPorMuseo);
+
 // Obtener un comentario por ID
 router.get('/:id', getComentarioById);
 
@@ -23,5 +28,7 @@ router.put('/:id', updateComentario);
 
 // Eliminar un comentario
 router.delete('/:id', deleteComentario);
+
+router.get('/usuario/:usuarioId', getComentariosPorUsuario);
 
 module.exports = router;

@@ -1,27 +1,36 @@
-// Modelo para la colección "Horario"
 const mongoose = require('mongoose');
 
 const horarioSchema = new mongoose.Schema({
   dia_semana: {
-    type: Date,
+    type: String,
     required: true,
+    enum: [
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+      'Domingo',
+      'Feriado'
+    ]
   },
   hora_apertura: {
-    type: String, // Almacenado como string tipo "HH:mm:ss"
+    type: String, // Ejemplo: "09:00:00"
     required: true,
   },
   hora_cierre: {
-    type: String, // Almacenado como string tipo "HH:mm:ss"
+    type: String, // Ejemplo: "17:00:00"
     required: true,
   },
   museo_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Museo', // Relación con el modelo Museo
+    ref: 'Museo',
     required: true,
-  },
+  }
 }, {
   collection: 'horario',
-  timestamps: false,
+  timestamps: false
 });
 
 const Horario = mongoose.model('Horario', horarioSchema);

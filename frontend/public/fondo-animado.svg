@@ -1,0 +1,44 @@
+<!-- public/fondo-animado.svg -->
+<svg width="100%" height="100%" viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6C63FF" />
+      <stop offset="100%" stop-color="#a18cd1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6C63FF" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#a18cd1" stop-opacity="0.3" />
+    </linearGradient>
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6C63FF" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#a18cd1" stop-opacity="0.15" />
+    </linearGradient>
+  </defs>
+
+  <!-- Onda 1 -->
+  <path fill="url(#grad1)">
+    <animate attributeName="d" dur="10s" repeatCount="indefinite"
+      values="
+        M0,160 C360,280 1080,40 1440,160 L1440,900 L0,900 Z;
+        M0,240 C480,80 960,320 1440,160 L1440,900 L0,900 Z;
+        M0,160 C360,280 1080,40 1440,160 L1440,900 L0,900 Z" />
+  </path>
+
+  <!-- Onda 2 -->
+  <path fill="url(#grad2)">
+    <animate attributeName="d" dur="15s" repeatCount="indefinite"
+      values="
+        M0,180 C300,320 1140,60 1440,180 L1440,900 L0,900 Z;
+        M0,260 C420,100 1020,360 1440,180 L1440,900 L0,900 Z;
+        M0,180 C300,320 1140,60 1440,180 L1440,900 L0,900 Z" />
+  </path>
+
+  <!-- Onda 3 -->
+  <path fill="url(#grad3)">
+    <animate attributeName="d" dur="20s" repeatCount="indefinite"
+      values="
+        M0,200 C400,300 1040,100 1440,200 L1440,900 L0,900 Z;
+        M0,280 C460,150 980,340 1440,200 L1440,900 L0,900 Z;
+        M0,200 C400,300 1040,100 1440,200 L1440,900 L0,900 Z" />
+  </path>
+</svg>

@@ -1,0 +1,33 @@
+.principal-container {
+    padding: 2rem;
+  }
+  
+  .principal-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .principal-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+  
+  .btn-construir-ruta {
+  margin: 2rem auto;
+  display: block;
+  padding: 10px 20px;
+  background-color: #4a90e2;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-construir-ruta:hover {
+  background-color: #357ac9;
+}

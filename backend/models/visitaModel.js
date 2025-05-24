@@ -2,18 +2,27 @@
 const mongoose = require('mongoose');
 
 const visitaSchema = new mongoose.Schema({
-  fecha_visita: {
+  fecha_hora_visita: {
     type: Date,
-    required: true,
+    required: true
   },
   numero_visitantes: {
     type: Number,
     required: true,
-    min: 1,
+    min: 1
   },
-  comentarios: {
+  nota: {
     type: String,
-    required: true,
+    trim: true
+  },
+  guia: {
+    type: Boolean,
+    default: false
+  },
+  idioma_guia: {
+    type: String,
+    enum: ['Español', 'Inglés', 'Francés', 'Portugués', 'Otro'],
+    default: 'Español'
   },
   museo_id: {
     type: mongoose.Schema.Types.ObjectId,

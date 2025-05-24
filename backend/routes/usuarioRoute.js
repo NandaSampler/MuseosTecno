@@ -6,8 +6,10 @@ const {
   deleteUser,
   updateUser,
   loginUser,
+  toggleFavorito,
+  
 } = require('../controllers/usuarioController');
-
+const { verificarToken} = require('../middlewares/auth');
 const router = express.Router();
 
 router.post('/login', loginUser);
@@ -16,15 +18,18 @@ router.post('/login', loginUser);
 router.post('/', createUser);
 
 // Obtener todos los usuarios
-router.get('/', getUsers);
+router.get('/', verificarToken, getUsers);
 
 // Obtener un usuario por ID
-router.get('/:id', getUser);
+router.get('/:id', verificarToken,getUser);
 
 // Actualizar un usuario por ID
-router.put('/:id', updateUser);
+router.put('/:id', verificarToken,updateUser);
 
 // Eliminar un usuario por ID
-router.delete('/:id', deleteUser);
+router.delete('/:id', verificarToken,deleteUser);
+
+// Gestionar favoritos
+router.put('/:userId/favoritos', verificarToken, toggleFavorito);
 
 module.exports = router;

@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const Usuario = require('../models/usuarioModel.js');
+const SECRET = 'tu_clave_secreta';
 
 // Obtener todos los usuarios
 const getUsers = async (req, res) => {
@@ -28,7 +30,7 @@ const getUser = async (req, res) => {
 
 // Crear un nuevo usuario
 const createUser = async (req, res) => {
-  const { nombre, email, password, favoritos } = req.body;
+  const { nombre, apellido, email, password, favoritos } = req.body;
 
   try {
     const existingUser = await Usuario.findOne({ email });
@@ -41,6 +43,7 @@ const createUser = async (req, res) => {
 
     const newUser = new Usuario({
       nombre,
+      apellido,
       email,
       password: hashedPassword,
       favoritos: favoritos || [],
@@ -113,15 +116,73 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ error: 'Correo o contraseña incorrectos' });
     }
 
+    const payload = {
+      id: user._id,
+      email: user.email,  
+    };
+    const token = jwt.sign(payload, SECRET, { expiresIn: '2h' });
+    console.log('🛡️  JWT generado:', token);
+
     res.status(200).json({
       success: true,
       message: 'Inicio de sesión exitoso',
-      usuario: user,
+      token,
+      usuario: {
+        id: user._id,
+        nombre: user.nombre,
+        apellido: user.apellido,
+        email: user.email,
+        favoritos: user.favoritos
+      }
     });
   } catch (error) {
     res.status(500).json({ error: 'Error al iniciar sesión', details: error.message });
   }
 };
+
+const toggleFavorito = async (req, res) => {
+  const { userId } = req.params;
+  const { museoId } = req.body;
+
+  console.log("📥 Petición recibida para toggleFavorito:");
+  console.log("🔑 userId:", userId);
+  console.log("🏛️ museoId:", museoId);
+
+  try {
+    const usuario = await Usuario.findById(userId);
+    if (!usuario) {
+      console.log("❌ Usuario no encontrado");
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    console.log("✅ Usuario encontrado:", usuario.email);
+    console.log("🎯 Favoritos actuales:", usuario.favoritos.map(f => f.toString()));
+
+    const museoIdStr = museoId.toString();
+    const index = usuario.favoritos.findIndex(favId => favId.toString() === museoIdStr);
+
+    if (index === -1) {
+      console.log("➕ Agregando museo a favoritos");
+      usuario.favoritos.push(museoId);
+    } else {
+      console.log("➖ Quitando museo de favoritos");
+      usuario.favoritos.splice(index, 1);
+    }
+
+    await usuario.save();
+    console.log("💾 Usuario actualizado con nuevos favoritos:", usuario.favoritos.map(f => f.toString()));
+
+    res.status(200).json({
+      success: true,
+      message: "Favoritos actualizados",
+      favoritos: usuario.favoritos,
+    });
+  } catch (error) {
+    console.error("🔥 Error inesperado en toggleFavorito:", error);
+    res.status(500).json({ error: "Error interno al actualizar favoritos", details: error.message });
+  }
+};
+
 
 
 module.exports = {
@@ -131,4 +192,5 @@ module.exports = {
   deleteUser,
   updateUser,
   loginUser,
+  toggleFavorito,
 };

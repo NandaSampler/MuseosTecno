@@ -5,9 +5,12 @@ const {
   createAdmin,
   deleteAdmin,
   updateAdmin,
+  loginAdmin,
 } = require('../controllers/adminController');
-
+const { verificarToken, esAdmin, esSuperAdmin} = require('../middlewares/auth');
 const router = express.Router();
+
+router.post('/login', loginAdmin);
 
 // Obtener todos los administradores
 router.get('/', getAdmins);

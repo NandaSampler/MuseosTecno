@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const Admin = require('../models/adminModel.js');
+const SECRET = 'tu_clave_secreta';
 
 // Obtener todos los administradores
 const getAdmins = async (req, res) => {
@@ -28,7 +30,7 @@ const getAdmin = async (req, res) => {
 
 // Crear un nuevo administrador con contraseña encriptada
 const createAdmin = async (req, res) => {
-  const { nombre, email, password } = req.body;
+  const { nombre, apellido, email, password, rol , museo_id} = req.body;
 
   try {
     const existingAdmin = await Admin.findOne({ email });
@@ -41,8 +43,11 @@ const createAdmin = async (req, res) => {
 
     const newAdmin = new Admin({
       nombre,
+      apellido,
       email,
       password: hashedPassword,
+      rol,
+      museo_id
     });
 
     await newAdmin.save();
@@ -98,10 +103,49 @@ const updateAdmin = async (req, res) => {
   }
 };
 
+// Método de login
+const loginAdmin = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
+      return res.status(401).json({ error: 'Correo o contraseña incorrectos' });
+    }
+
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Correo o contraseña incorrectos' });
+    }
+    const payload = {
+      id: admin._id,
+      email: admin.email,
+      rol: admin.rol,
+    };
+
+    const token = jwt.sign(payload, SECRET, { expiresIn: '2h' });
+    res.status(200).json({
+      success: true,
+      message: 'Inicio de sesión exitoso',
+      token,
+      admin: {
+        id: admin._id,
+        nombre: admin.nombre,
+        apellido: admin.apellido,
+        email: admin.email,
+        rol: admin.rol
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al iniciar sesión', details: error.message });
+  }
+};
+
 module.exports = {
   getAdmins,
   getAdmin,
   createAdmin,
   deleteAdmin,
   updateAdmin,
+  loginAdmin,
 };

@@ -8,12 +8,13 @@ const comentarioSchema = new mongoose.Schema({
   },
   fecha_comentario: {
     type: Date,
-    required: true,
+    default: Date.now,
   },
   valoracion: {
-    type: String,
+    type: Number,
+    min: 1,
+    max: 5,
     required: true,
-    maxlength: 50,
   },
   usuario_id: {
     type: mongoose.Schema.Types.ObjectId,

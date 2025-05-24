@@ -1,4 +1,3 @@
-// Modelo para la colección "Museo"
 const mongoose = require('mongoose');
 
 const museoSchema = new mongoose.Schema({
@@ -14,7 +13,7 @@ const museoSchema = new mongoose.Schema({
   historia: {
     type: String,
     required: true,
-    maxlength: 255,
+    maxlength: 1000,
   },
   descripcion: {
     type: String,
@@ -25,12 +24,29 @@ const museoSchema = new mongoose.Schema({
     required: true,
     maxlength: 255,
   },
+  galeria: [{
+    type: String,
+    maxlength: 255,
+  }],
   departamento_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Dpto', // Relación con el modelo Dpto
+    ref: 'Dpto',
     required: true,
   },
-}, {
+  estado: {
+    type: String,
+    enum: ['pendiente', 'aceptado', 'rechazado'],
+    default: 'pendiente'
+  },
+  lat: {
+    type: Number,
+    required: false,
+  },
+  lng: {
+    type: Number,
+    required: false,
+  }
+},{
   collection: 'museo',
   timestamps: false,
 });
