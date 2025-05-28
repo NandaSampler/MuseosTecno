@@ -5,7 +5,6 @@ body {
   padding: 0;
   color: var(--color-texto-oscuro);
   overflow-x: hidden;
-  overflow-y: hidden;
 }
 :root {
   /* Colores personalizados */
