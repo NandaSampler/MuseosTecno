@@ -1,13 +1,18 @@
 /* ------------ EXISTENTE ------------ */
 .principal-container {
-  padding: 2rem;
+  padding-top: 0rem; 
+  padding-right: 2rem;
+  padding-left: 2rem;
+  padding-bottom: 2rem;
 }
+
 .principal-title {
   text-align: center;
-  margin-bottom: 2rem;
+  margin: 1rem 0 2rem 0;
   font-size: 2rem;
   color: #333;
 }
+
 .principal-grid {
   display: flex;
   flex-wrap: wrap;
@@ -66,3 +71,119 @@
   cursor: text;
   color: #333;
 }
+
+/* === Filtro de categorías moderno === */
+.filtros-categorias {
+  text-align: center;
+  margin: 2rem auto;
+}
+
+.filtros-categorias p {
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: #444;
+  font-size: 1.1rem;
+}
+
+.checkboxes-categorias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  justify-content: center;
+}
+
+/* Botón de categoría (toggle visual) */
+.categoria-checkbox {
+  background-color: #eee;
+  color: #333;
+  padding: 0.6em 1.2em;
+  border-radius: 2em;
+  font-size: 0.95rem;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.categoria-checkbox:hover {
+  background-color: #ddd;
+}
+
+.categoria-checkbox.active {
+  background-color: #7571af;
+  color: white;
+  border-color: rgb(73, 105, 194);
+}
+
+/* Ocultar input */
+.categoria-checkbox input {
+  display: none;
+}
+
+.btn-limpiar-filtros {
+  margin-top: 1rem;
+  background-color: #e9a588;
+  color: white;
+  border: none;
+  border-radius: 2em;
+  padding: 0.5em 1.2em;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-limpiar-filtros:hover {
+  background-color: rgb(194, 57, 42);
+}
+.selector-origen-container {
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 300px;
+  align-items: center; 
+}
+
+
+.selector-origen-label {
+  font-weight: bold;
+  color: #333;
+  font-size: 16px;
+}
+
+.selector-origen-select {
+  padding: 8px 12px;
+  border: 2px solid #4caf50;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.selector-origen-select:hover {
+  border-color: #388e3c;
+}
+.principal-grid .card-museo {
+  flex: 0 0 calc(33.333% - 2rem);
+  max-width: calc(33.333% - 2rem);
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .principal-grid .card-museo {
+    flex: 0 0 calc(50% - 2rem);
+    max-width: calc(50% - 2rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .principal-grid .card-museo {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+

@@ -1,12 +1,16 @@
 .card-museo-seleccionable {
   position: relative;
+  width: 240px;              /* Puedes ajustar según tu diseño */
+  height: 320px;             /* Altura fija para uniformidad */
   border: 2px solid transparent;
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
   background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 .card-museo-seleccionable:hover {
@@ -20,22 +24,32 @@
 
 .card-img {
   width: 100%;
-  height: 160px;
-  object-fit: cover;
+  height: 160px;             /* Fija la altura de imagen */
+  object-fit: cover;         /* Recorta la imagen para encajar */
+  flex-shrink: 0;
 }
 
 .card-content {
   padding: 12px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .card-content h3 {
   margin: 0;
   font-size: 18px;
+  line-height: 1.2;
+  max-height: 2.4em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ubicacion {
   color: #666;
   font-size: 14px;
+  margin-top: 8px;
 }
 
 .check-overlay {

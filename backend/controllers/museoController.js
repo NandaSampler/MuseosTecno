@@ -92,12 +92,33 @@ const createMuseo = async (req, res) => {
  */
 const getMuseos = async (req, res) => {
   try {
-    const museos = await Museo.find({ estado: 'aceptado' }).populate('departamento_id');
-    return res.status(200).json(museos);
+    // Paso 1: Obtener todos los museos aceptados con su departamento
+    const museos = await Museo.find({ estado: 'aceptado' })
+                              .populate('departamento_id')
+                              .lean();
+
+    // Paso 2: Obtener todas las relaciones museo-categoría con nombres de categoría
+    const relaciones = await MuseoCategoria.find()
+      .populate("categoria_id") // Esto nos da acceso al nombre de la categoría
+      .lean();
+
+    // Paso 3: Agregar a cada museo su array de nombres de categoría
+    const museosConCategorias = museos.map((m) => {
+      const categorias = relaciones
+        .filter((rel) => rel.museo_id.toString() === m._id.toString())
+        .map((rel) => rel.categoria_id?.nombre || "Sin nombre");
+      return { ...m, categorias };
+    });
+
+    return res.status(200).json(museosConCategorias);
   } catch (error) {
-    return res.status(500).json({ error: 'Error al obtener los museos.', details: error.message });
+    return res.status(500).json({
+      error: 'Error al obtener los museos.',
+      details: error.message,
+    });
   }
 };
+
 
 /**
  * Obtener museos en estado pendiente (para superadmin)

@@ -9,17 +9,14 @@ const Principal = () => {
   const { departamentoId } = useParams();
   const navigate = useNavigate();
 
-  // Estado de museos y loading
   const [museos, setMuseos] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // Búsqueda por texto
   const [searchTerm, setSearchTerm] = useState("");
-
-  // Favoritos del usuario
   const [favoritosUsuario, setFavoritosUsuario] = useState([]);
 
-  // Obtener token y userId
+  const [categorias, setCategorias] = useState([]);
+  const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
+
   const token = localStorage.getItem("token");
   let userId = "";
   if (token) {
@@ -31,19 +28,17 @@ const Principal = () => {
     }
   }
 
-  // Carga de museos
   useEffect(() => {
     const fetchMuseos = async () => {
       try {
         const API = process.env.REACT_APP_API_URL || "http://localhost:4000";
         const res = await axios.get(`${API}/api/museos`);
-        setMuseos(
-          res.data.filter(
-            (m) =>
-              m.departamento_id?._id === departamentoId &&
-              m.estado === "aceptado"
-          )
+        const filtrados = res.data.filter(
+          (m) =>
+            m.departamento_id?._id === departamentoId &&
+            m.estado === "aceptado"
         );
+        setMuseos(filtrados);
       } catch (e) {
         console.error("Error al obtener museos:", e);
       } finally {
@@ -53,7 +48,6 @@ const Principal = () => {
     fetchMuseos();
   }, [departamentoId]);
 
-  // Fetch favoritos del usuario
   const fetchFavoritos = async () => {
     if (!userId || !token) return;
     try {
@@ -67,21 +61,57 @@ const Principal = () => {
     }
   };
 
-  // Cargar favoritos al montar (y cuando cambie userId)
   useEffect(() => {
     fetchFavoritos();
   }, [userId]);
 
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const API = process.env.REACT_APP_API_URL || "http://localhost:4000";
+        const res = await axios.get(`${API}/api/categorias`);
+        setCategorias(res.data);
+      } catch (e) {
+        console.error("Error al obtener categorías:", e);
+      }
+    };
+    fetchCategorias();
+  }, []);
+
+  const toggleCategoria = (categoriaId) => {
+    setCategoriasSeleccionadas((prev) =>
+      prev.includes(categoriaId)
+        ? prev.filter((id) => id !== categoriaId)
+        : [...prev, categoriaId]
+    );
+  };
+
   if (loading) return <p>Cargando museos...</p>;
   if (!museos.length) return <p>No hay museos en este departamento.</p>;
 
-  // Filtrado solo por nombre
-  const filtered = museos.filter((m) =>
-    m.nombre.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filtered = museos.filter((m) => {
+    const coincideBusqueda = m.nombre
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+    const coincideCategoria =
+      categoriasSeleccionadas.length === 0 ||
+      (m.categorias &&
+        m.categorias.some((nombreCat) =>
+          categorias
+            .filter((c) => categoriasSeleccionadas.includes(c._id))
+            .map((c) => c.nombre)
+            .includes(nombreCat)
+        ));
+
+    return coincideBusqueda && coincideCategoria;
+  });
 
   return (
     <div className="principal-container">
+      {/* Título principal antes de buscador */}
+      <h2 className="principal-title">Destinos culturales y turísticos del departamento</h2>
+
       {/* Barra de búsqueda */}
       <div className="search-wrapper">
         <input
@@ -93,8 +123,34 @@ const Principal = () => {
         />
       </div>
 
-      <h2 className="principal-title">Museos del Departamento</h2>
+      {/* Filtro de categorías */}
+      <div className="filtros-categorias">
+        <div className="checkboxes-categorias">
+          {categorias.map((cat) => {
+            const activa = categoriasSeleccionadas.includes(cat._id);
+            return (
+              <div
+                key={cat._id}
+                className={`categoria-checkbox ${activa ? "active" : ""}`}
+                onClick={() => toggleCategoria(cat._id)}
+              >
+                {cat.nombre}
+              </div>
+            );
+          })}
 
+          {categoriasSeleccionadas.length > 0 && (
+            <button
+              className="btn-limpiar-filtros"
+              onClick={() => setCategoriasSeleccionadas([])}
+            >
+              Limpiar filtros
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Tarjetas de museos */}
       <div className="principal-grid">
         {filtered.length ? (
           filtered.map((m) => (

@@ -17,6 +17,10 @@ const ConstruirRutaView = () => {
   const [mostrarRuta, setMostrarRuta] = useState(false);
   const [rutaOptimizada, setRutaOptimizada] = useState([]);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categorias, setCategorias] = useState([]);
+  const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
+
   const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
   useEffect(() => {
@@ -41,12 +45,33 @@ const ConstruirRutaView = () => {
     fetchMuseos();
   }, [departamentoId, navigate]);
 
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const API = process.env.REACT_APP_API_URL || "http://localhost:4000";
+        const res = await axios.get(`${API}/api/categorias`);
+        setCategorias(res.data);
+      } catch (e) {
+        console.error("Error al obtener categorías:", e);
+      }
+    };
+    fetchCategorias();
+  }, []);
+
   const toggleSeleccion = (id) => {
     setMostrarRuta(false);
     setRutaOptimizada([]);
     setMuseoOrigenId(null);
     setSeleccionados((prev) =>
       prev.includes(id) ? prev.filter((m) => m !== id) : [...prev, id]
+    );
+  };
+
+  const toggleCategoria = (categoriaId) => {
+    setCategoriasSeleccionadas((prev) =>
+      prev.includes(categoriaId)
+        ? prev.filter((id) => id !== categoriaId)
+        : [...prev, categoriaId]
     );
   };
 
@@ -126,12 +151,68 @@ const ConstruirRutaView = () => {
     }
   };
 
+  const filtrados = museos.filter((m) => {
+    const coincideBusqueda = m.nombre
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+    const coincideCategoria =
+      categoriasSeleccionadas.length === 0 ||
+      (m.categorias &&
+        m.categorias.some((nombreCat) =>
+          categorias
+            .filter((c) => categoriasSeleccionadas.includes(c._id))
+            .map((c) => c.nombre)
+            .includes(nombreCat)
+        ));
+
+    return coincideBusqueda && coincideCategoria;
+  });
+
   return (
     <div className="principal-container">
-      <h2 className="principal-title">Selecciona los museos de tu ruta</h2>
+      <h2 className="principal-title">Selecciona los destinos para tu ruta</h2>
+
+      {/* Búsqueda */}
+      <div className="search-wrapper">
+        <input
+          type="search"
+          className="search-input"
+          placeholder="Buscar..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
+      {/* Filtros */}
+      <div className="filtros-categorias">
+        <div className="checkboxes-categorias">
+          {categorias.map((cat) => {
+            const activa = categoriasSeleccionadas.includes(cat._id);
+            return (
+              <div
+                key={cat._id}
+                className={`categoria-checkbox ${activa ? "active" : ""}`}
+                onClick={() => toggleCategoria(cat._id)}
+              >
+                {cat.nombre}
+              </div>
+            );
+          })}
+
+          {categoriasSeleccionadas.length > 0 && (
+            <button
+              className="btn-limpiar-filtros"
+              onClick={() => setCategoriasSeleccionadas([])}
+            >
+              Limpiar filtros
+            </button>
+          )}
+        </div>
+      </div>
 
       <div className="principal-grid">
-        {museos.map((museo) => (
+        {filtrados.map((museo) => (
           <CardMuseoSeleccionable
             key={museo._id}
             museo={museo}
@@ -142,25 +223,29 @@ const ConstruirRutaView = () => {
       </div>
 
       {seleccionados.length > 1 && (
-        <div style={{ margin: "20px 0" }}>
-          <label style={{ fontWeight: "bold" }}>Selecciona el museo de origen: </label>
-          <select
-            value={museoOrigenId || ""}
-            onChange={(e) => setMuseoOrigenId(e.target.value)}
-          >
-            <option value="" disabled>
-              -- Selecciona --
-            </option>
-            {museos
-              .filter((m) => seleccionados.includes(m._id))
-              .map((m) => (
-                <option key={m._id} value={m._id}>
-                  {m.nombre}
-                </option>
-              ))}
-          </select>
-        </div>
-      )}
+  <div className="selector-origen-container">
+    <label className="selector-origen-label">
+      Museo de origen para comenzar la ruta:
+    </label>
+    <select
+      className="selector-origen-select"
+      value={museoOrigenId || ""}
+      onChange={(e) => setMuseoOrigenId(e.target.value)}
+    >
+      <option value="" disabled>
+        -- Selecciona --
+      </option>
+      {museos
+        .filter((m) => seleccionados.includes(m._id))
+        .map((m) => (
+          <option key={m._id} value={m._id}>
+            {m.nombre}
+          </option>
+        ))}
+    </select>
+  </div>
+)}
+
 
       {seleccionados.length > 0 && (
         <button
@@ -175,7 +260,7 @@ const ConstruirRutaView = () => {
       {mostrarRuta && rutaOptimizada.length > 0 && (
         <>
           <h3 className="principal-title" style={{ marginTop: "2rem" }}>
-            Ruta generada (óptima)
+            Ruta óptima generada
           </h3>
 
           <div className="principal-grid">

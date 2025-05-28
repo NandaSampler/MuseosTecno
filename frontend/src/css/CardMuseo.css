@@ -1,12 +1,13 @@
 /* src/css/CardMuseo.css */
 .card-museo {
-  position: relative;
-  width: 450px;
+   position: relative;
+  width: 100%;
+  max-width: 100%;
   height: 300px;
   border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
-  margin: 15px;
+  margin: 0;
   background-color: #95bcd6;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -90,3 +91,27 @@
   gap: 2rem;
   padding: 3rem;
 }
+.principal-grid .card-museo {
+  flex: 0 0 calc(33.333% - 2rem); /* 3 por fila con espacio */
+  max-width: calc(33.333% - 2rem);
+  box-sizing: border-box;
+}
+
+/* Responsivo: 2 por fila en pantallas medianas */
+@media (max-width: 900px) {
+  .principal-grid .card-museo {
+    flex: 0 0 calc(50% - 2rem);
+    max-width: calc(50% - 2rem);
+  }
+}
+
+/* Responsivo: 1 por fila en pantallas pequeñas */
+@media (max-width: 600px) {
+  .principal-grid .card-museo {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+
+
