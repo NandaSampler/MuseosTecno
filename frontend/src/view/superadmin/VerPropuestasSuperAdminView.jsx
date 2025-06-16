@@ -31,14 +31,20 @@ const VerPropuestasSuperAdminView = () => {
   }
 
   return (
-    <div className="grid-museos">
+    <div className="grid-museos superadmin-view">
       {propuestas.map((museo) => (
         <div key={museo._id} className="card-museo">
+          {/* cambio className para que coincida con el CSS */}
           <img
-            src={museo.foto.startsWith('http') ? museo.foto : `http://localhost:4000/uploads/${museo.foto}`}
+            src={
+              museo.foto.startsWith('http')
+                ? museo.foto
+                : `http://localhost:4000/uploads/${museo.foto}`
+            }
             alt={museo.nombre}
-            className="card-img"
+            className="card-museo-img"
           />
+          {/* este bloque se oculta por CSS en superadmin-view */}
           <div className="card-museo-content">
             <h3>{museo.nombre}</h3>
             <p><strong>Ubicación:</strong> {museo.ubicacion}</p>
@@ -47,8 +53,12 @@ const VerPropuestasSuperAdminView = () => {
             <p><strong>Historia:</strong> {museo.historia}</p>
           </div>
           <div className="acciones">
-            <button className="btn-aceptar" onClick={() => actualizarEstado(museo._id, 'aceptado')}>Aceptar</button>
-            <button className="btn-rechazar" onClick={() => actualizarEstado(museo._id, 'rechazado')}>Rechazar</button>
+            <button className="btn-aceptar" onClick={() => actualizarEstado(museo._id, 'aceptado')}>
+              Aceptar
+            </button>
+            <button className="btn-rechazar" onClick={() => actualizarEstado(museo._id, 'rechazado')}>
+              Rechazar
+            </button>
           </div>
         </div>
       ))}

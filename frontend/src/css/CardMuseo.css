@@ -1,6 +1,21 @@
 /* src/css/CardMuseo.css */
+
+/* ================================================
+   Estilos generales para todas las cards
+   ================================================ */
+
+/* Grid contenedor */
+.grid-museos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 3rem;
+}
+
+/* Card base */
 .card-museo {
-   position: relative;
+  position: relative;
   width: 100%;
   max-width: 100%;
   height: 300px;
@@ -19,13 +34,19 @@
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
 }
 
+/* Imagen */
 .card-museo-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.4s ease, transform 0.5s ease;
 }
 
+.card-museo:hover .card-museo-img {
+  opacity: 0.9;
+}
+
+/* Contenido de texto al pie */
 .card-museo-content {
   background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
   color: white;
@@ -54,16 +75,7 @@
   line-height: 1.3;
 }
 
-.card-museo-ubicacion {
-  font-style: italic;
-  color: #ccc;
-}
-
-.card-museo-descripcion {
-  font-size: 0.85rem;
-  color: #eee;
-}
-
+/* Icono estrella (útil si hay favoritos) */
 .estrella-icono {
   position: absolute;
   top: 8px;
@@ -84,20 +96,14 @@
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-.grid-museos {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  padding: 3rem;
-}
+/* Distribución dentro de un contenedor “principal-grid” */
 .principal-grid .card-museo {
-  flex: 0 0 calc(33.333% - 2rem); /* 3 por fila con espacio */
+  flex: 0 0 calc(33.333% - 2rem);
   max-width: calc(33.333% - 2rem);
   box-sizing: border-box;
 }
 
-/* Responsivo: 2 por fila en pantallas medianas */
+/* Responsivo */
 @media (max-width: 900px) {
   .principal-grid .card-museo {
     flex: 0 0 calc(50% - 2rem);
@@ -105,7 +111,6 @@
   }
 }
 
-/* Responsivo: 1 por fila en pantallas pequeñas */
 @media (max-width: 600px) {
   .principal-grid .card-museo {
     flex: 0 0 100%;
@@ -113,5 +118,92 @@
   }
 }
 
+/* ================================================
+   Extensiones SOLO para la vista “SuperAdmin”
+   (envolver el contenedor con la clase .superadmin-view)
+   ================================================ */
 
+.superadmin-view .grid-museos {
+  /* si en esta vista quieres usar grid en lugar de flex */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  padding: 2rem;
+  justify-items: center;
+}
 
+.superadmin-view .card-museo {
+  /* elimina la altura fija y limita el ancho */
+  height: auto;
+  max-width: 320px;
+  background-color: transparent;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.superadmin-view .card-museo-img {
+  /* fija un alto razonable para la imagen */
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.superadmin-view .card-museo:hover .card-museo-img {
+  transform: scale(1.05);
+}
+
+/* ocultar todo el bloque de texto */
+.superadmin-view .card-museo-content {
+  display: none !important;
+}
+
+/* superponer botones encima de la imagen */
+.superadmin-view .acciones {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.superadmin-view .acciones button {
+  flex: 1;
+  padding: 0.5rem 0;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Colores de botones iguales a los originales */
+.superadmin-view .btn-aceptar {
+  background-color: #27ae60;
+  color: #fff;
+}
+.superadmin-view .btn-rechazar {
+  background-color: #c0392b;
+  color: #fff;
+}
+.superadmin-view .btn-aceptar:hover {
+  background-color: #2ecc71;
+}
+.superadmin-view .btn-rechazar:hover {
+  background-color: #e74c3c;
+}
+
+/* Adaptaciones responsivas dentro de la vista SuperAdmin */
+@media (max-width: 900px) {
+  .superadmin-view .grid-museos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .superadmin-view .grid-museos {
+    grid-template-columns: 1fr;
+  }
+}
